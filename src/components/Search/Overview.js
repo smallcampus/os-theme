@@ -2,7 +2,7 @@ import React from 'react';
 import {Grid, Typography} from '@material-ui/core';
 import {connect} from 'react-redux'
 import {withStyles} from '@material-ui/core/styles';
-import {refactorParaLength, refactorTextLength} from "../../api/ApiUtils";
+import {handleImgValid, refactorParaLength, refactorTextLength} from "../../api/ApiUtils";
 import withWidth from "@material-ui/core/withWidth/index";
 import FeedOverviewBox from '../Widget/Feed/overviewBox'
 import ProductOverviewBox from '../Widget/Product/overviewBox'
@@ -50,6 +50,18 @@ const mapDispatchToProps = dispatch => ({
 )
 
 class SearchPage extends React.Component {
+    searchData = (data) =>
+        data.filter(n => (this.props.keyword) ? (JSON.stringify(n).toLowerCase().indexOf(this.props.keyword.toLowerCase()) !== -1) : false)
+    onChange = value => {
+        clearTimeout(this.state.timer)
+        this.setState(
+            {
+                timer: setTimeout(() => this.props.editSearchBar(value), 500)
+
+            }
+        )
+    }
+
     constructor(props) {
         super(props)
         this.state = {
@@ -57,9 +69,6 @@ class SearchPage extends React.Component {
         }
 
     }
-
-    searchData = (data) =>
-        data.filter(n => (this.props.keyword) ? (JSON.stringify(n).toLowerCase().indexOf(this.props.keyword.toLowerCase()) !== -1) : false)
 
     componentDidMount() {
         this.props.editSearchBar(this.props.match.params.keyword)
@@ -72,22 +81,12 @@ class SearchPage extends React.Component {
 
     }
 
-    onChange = value => {
-        clearTimeout(this.state.timer)
-        this.setState(
-            {
-                timer: setTimeout(() => this.props.editSearchBar(value), 500)
-
-            }
-        )
-    }
-
     render() {
 
         const {classes} = this.props
-        if (!this.props.products || !this.props.feeds) return <LoadingPage/>
-        const products = this.props.products && this.searchData(this.props.products)
-        const feeds = this.props.feeds && this.searchData(this.props.feeds)
+        if (!this.props.products && !this.props.feeds) return <LoadingPage/>
+        const products = this.props.products ? this.searchData(this.props.products) : []
+        const feeds = this.props.feeds ? this.searchData(this.props.feeds) : []
         const searchResultCount = products.length + feeds.length
 
         return (
@@ -128,7 +127,7 @@ class SearchPage extends React.Component {
 
                             <ProductOverviewBox
                                 key={i}
-                                src={n.photos[0].url}
+                                src={handleImgValid(n.photos[0])}
                                 name={refactorTextLength(n.name)}
                                 category={n.tags}
                                 regPrice={n.variants[0] ? n.variants[0].price : 'not a reg price'}
@@ -157,7 +156,7 @@ class SearchPage extends React.Component {
 
                                 subTitle={refactorParaLength(n.sections[0].description)}
                                 title={n.sections[0].title}
-                                author={n.authors[0].name.first + ' ' + n.authors[0].name.last}
+                                author={n.authors[0] ? n.authors[0].name.first + ' ' + n.authors[0].name.last : 'no authors'}
                                 postDate={n.postDate}
                                 comments={0}
                             />

@@ -1,9 +1,8 @@
-import {COMMON_EDIT_SEARCH_BAR,} from "../constants/actionType";
+import {COMMON_EDIT_SEARCH_BAR,COMMON_INIT_MY_CREDIT} from "../constants/actionType";
 
 
 const defaultState = {
     searchBar: '',
-
 };
 
 export default (state = defaultState, action) => {

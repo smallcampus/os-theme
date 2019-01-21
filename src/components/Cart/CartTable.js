@@ -7,8 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import img from '../../constants/img/loadingImg.gif'
-import {formatMoney, refactorTitle} from "../../api/ApiUtils";
+import {formatMoney, handleImgValid, refactorTitle} from "../../api/ApiUtils";
 import Counter from '../Widget/Counter'
 import {connect} from "react-redux";
 import classNames from 'classnames'
@@ -86,15 +85,13 @@ const mapDispatchToProps = dispatch => ({
         })
     }
 )
+const getRowPrice = product => product.product.variants.find(variant => variant.id === product.variantId).price * product.number
 
-class ShoppingCartTable extends React.Component {
+const ShoppingCartTable = (props)=> {
+    const {classes, shoppingCart} = props;
 
-    getRowPrice = product => product.product.variants.find(variant => variant.id === product.variantId).price * product.number
+        if (shoppingCart === null) return <LoadingPage/>
 
-    render() {
-        if (this.props.shoppingCart === null) return <LoadingPage/>
-
-        const {classes, shoppingCart} = this.props;
         return (
             shoppingCart.length > 0 ?
                 <Paper className={classes.root}>
@@ -131,7 +128,7 @@ class ShoppingCartTable extends React.Component {
                                             className={classes.block}
                                         >
 
-                                            <img src={n.product.photos[0].url}
+                                            <img src={handleImgValid(n.product.photos[0])}
                                                  className={classes.img}
                                             />
 
@@ -163,7 +160,7 @@ class ShoppingCartTable extends React.Component {
                                             numeric>
                                             <Counter
                                                 number={n.number}
-                                                onChange={k => this.props.editShoppingCart('count', {
+                                                onChange={k => props.editShoppingCart('count', {
                                                     index: i,
                                                     count: k
                                                 })}
@@ -173,12 +170,12 @@ class ShoppingCartTable extends React.Component {
                                             className={classes.block}
 
                                             numeric>{'$ ' +
-                                        formatMoney(this.getRowPrice(n))
+                                        formatMoney(getRowPrice(n))
                                         }</TableCell>
                                         <TableCell
                                             className={classes.block}
                                             numeric>   <span
-                                            onClick={() => this.props.editShoppingCart('remove', i)}
+                                            onClick={() => props.editShoppingCart('remove', i)}
                                             className={classes.binIcon + ' ' + 'icon-bin'}/></TableCell>
                                     </TableRow>
                                 );
@@ -186,7 +183,7 @@ class ShoppingCartTable extends React.Component {
                             <TableRow>
                                 <TableCell colSpan={2}>Total</TableCell>
                                 <TableCell
-                                    numeric>{'$ ' + formatMoney(shoppingCart.length > 0 && shoppingCart.reduce((acc, cur) => acc + this.getRowPrice(cur), 0))}</TableCell>
+                                    numeric>{'$ ' + formatMoney(shoppingCart.length > 0 && shoppingCart.reduce((acc, cur) => acc + getRowPrice(cur), 0))}</TableCell>
                                 <TableCell colSpan={3} numeric>
 
                                     <Button variant={'outlined'}
@@ -214,7 +211,7 @@ class ShoppingCartTable extends React.Component {
 
         );
     }
-}
+
 
 ShoppingCartTable.propTypes = {
     classes: PropTypes.object.isRequired,

@@ -1,45 +1,49 @@
-import React from 'react';
-import {Grid, Typography} from '@material-ui/core';
+import React, {lazy, Suspense} from 'react';
+import {Grid} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 import Carousel from '../Widget/Slick/SingleItem'
 import {connect} from 'react-redux'
-import MultiItems from '../Widget/Slick/MultiplyItems'
-import FeedsWall from '../Widget/FeedsWall/Wrapper'
 import CategoryOverviewBox from '../Widget/CategoryOverviewBox'
-import LoadingPage from '../Layout/LoadingPage'
 import {isImgOnlySections} from "../../api/ApiUtils";
-
-const styles = theme => {
-    return (
-        {
-            section: {
-                width: '100%',
-                margin: '0 80px'
-            },
-            productCategory: {
-                backgroundColor: theme.palette.background.paper
-            },
-            text: {
-                textAlign: 'center',
-                color: theme.palette.secondary.light,
-                marginBottom: '30px',
-                wordWrap: 'break-word',
-                wordBreak: 'break-all'
-
-            },
-            title: {
-                marginTop: '50px',
-                fontWeight: '700',
-                color: theme.palette.primary.dark,
-                marginBottom: '20px',
-                textAlign: 'center'
-            }
+import withWidth from "@material-ui/core/withWidth/index";
+import LoadingPage from '../Layout/LoadingPage'
 
 
-        })
+const SectionBanner = lazy(() => import('./Sections/Banner'))
+const SectionTopInterest = lazy(() => import('./Sections/TopInterest'))
+const SectionFeatureProducts = lazy(() => import('./Sections/FeatureProducts'))
+const FEATURED_PRODUCTS = 'featured'
 
-}
+const styles = theme => ({
+    section: {
+        width: '100%',
+        margin: '0 80px'
+    },
+    productCategory: {
+        paddingTop: '40px',
 
+        paddingBottom: '40px',
+        backgroundColor: theme.palette.background.paper
+    },
+    text: {
+        textAlign: 'center',
+        color: theme.palette.secondary.light,
+        marginBottom: '30px',
+        wordWrap: 'break-word',
+        wordBreak: 'break-all'
+
+    },
+    title: {
+        paddingTop: '20px',
+        marginTop: '50px',
+        fontWeight: '700',
+        color: theme.palette.primary.dark,
+        marginBottom: '20px',
+        textAlign: 'center'
+    }
+
+
+})
 
 const mapStateToProps = state => ({
     products: state.product.products,
@@ -47,92 +51,88 @@ const mapStateToProps = state => ({
     category: state.category.category,
 });
 
-
 const mapDispatchToProps = dispatch => ({}
 )
 
 class ResponsiveDialog extends React.Component {
 
+
     render() {
+
         const {classes} = this.props
-        var latestArticle = (((this.props.feeds || [])[0] || {}).sections || [])[0] || {};
-        
+        let getDataFromAPI = (this.props.feeds === null && this.props.products === null)
+        if (getDataFromAPI) return <LoadingPage/>
+        let latestArticle = this.props.feeds && this.props.feeds.filter((n, i) => isImgOnlySections(n.sections)).filter((n, i) => i < 3)
+        let hasProductsToShow = (this.props.products && this.props.products.length > 0)
+        let hasFeedsToShow = (this.props.feeds && this.props.feeds.length > 0)
+        let hasCategoryToShow = (this.props.category.length > 0)
+        let hasSelectedProductsToShow = hasProductsToShow && this.props.products
+            .filter(n => n.tags.find(m => m.toLowerCase() === FEATURED_PRODUCTS)).length > 0
+
+
+        if (!(hasProductsToShow) && !(hasFeedsToShow))
+            return <Grid xs={12}>
+                <Carousel
+                    data={new Array(3).fill(1)
+                        .map((n, i) => ({
+                            url: `img/init/photo${i + 1}.jpeg`,
+                        }))}
+
+                    title={[
+                        'shops is under construction',
+                        'there is no products and feeds in this shops yet',
+
+                        'please wait']}
+
+
+                />
+            </Grid>
+
+
         return (
-            (this.props.feeds && this.props.products) ?
-                <Grid container alignItems={'flex-start'} justify={'center'}>
 
-                    <Grid item xs={12}>
-                        <Carousel data={latestArticle.medias || []} title={latestArticle.title || ''} caption={latestArticle.description || ''}/>
-                    </Grid>
+            <Grid container alignItems={'flex-start'} justify={'center'}>
+                <Suspense fallback={null}>
+                    <SectionBanner
+                        hasFeedsToShow={hasFeedsToShow}
+                        latestArticle={latestArticle}
+                        feeds={this.props.feeds}
+                    />
+                </Suspense>
+                {/* ---------------- hot sale products ----------------*/}
+                {
+                    <Suspense fallback={null}>
+                        <SectionTopInterest self={this.props}/>
+                    </Suspense>
 
-                    
-                    <Grid item xs={12} style={{ marginTop: 80 }}>
-                        <FeedsWall
-                            data={this.props.feeds.filter((n, i) => isImgOnlySections(n.sections))}
-                        />
-                    </Grid>
+                }
+                {/* ---------------- /hot sale products ----------------*/}
 
+                {
+                    hasCategoryToShow && <Grid item container alignItems={'center'} justify={'center'}
+                                               className={classes.productCategory}>
 
-                    {/* ---------------- hot sale products ----------------*/}
-                    <section className={classes.section}>
-                        <div>
-                            <Typography variant={'display1'} className={classes.title}>
-                                TOP INTERESTING
-                            </Typography>
-                            <Typography variant={'subheading'} className={classes.text}>
-                                Browse the collection of our best selling and top interesting products. You’ll definitely
-                                find
-                                what you are looking for.
-                            </Typography>
-                        </div>
-
-                        <div>
-                            <MultiItems data={this.props.products} size={8}/>
-                        </div>
-                    </section>
-                    {/* ---------------- /hot sale products ----------------*/}
-
-
-                    <Grid item container alignItems={'center'} justify={'center'} className={classes.productCategory}>
-                        <Grid item lg={5} xs={12} container justify={'center'}>
-                            <Typography variant={'display1'} className={classes.title}>
-                                PRODUCT CATEGORIES
-                            </Typography>
-                            <Typography variant={'subheading'} className={classes.text}>
-                                Variety of product categories, tens of products, only five-stars reviews. Browse the
-                                collections
-                                right now.
-                            </Typography>
-                        </Grid>
                         <Grid item xs={12} md={10} lg={10}>
                             <CategoryOverviewBox
+
                                 category={this.props.category}
                             />
                         </Grid>
 
                     </Grid>
+                }
+                {
+                    <Suspense fallback={null}>
+                        <SectionFeatureProducts self={this.props}/>
+                    </Suspense>
 
-                    <section className={classes.section}>
-                        <div>
-                            <Typography variant={'display1'} className={classes.title}>
-                                Featured Products
-                            </Typography>
-                            <Typography variant={'subheading'} className={classes.text}>
-                                Browse the collection of our best selling and top interesting products. You’ll definitely
-                                find
-                                what you are looking for.
-                            </Typography>
-                        </div>
+                }
 
-                        <div>
-                            <MultiItems data={this.props.products}/>
-                        </div>
-                    </section>
 
-                </Grid> : <LoadingPage/>
+            </Grid>
         );
     }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ResponsiveDialog))
+export default withWidth()(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ResponsiveDialog)))

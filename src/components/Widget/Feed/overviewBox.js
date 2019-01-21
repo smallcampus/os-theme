@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Grid, Typography} from '@material-ui/core';
+import {Grid, Typography} from '@material-ui/core';
 import moment from 'moment'
 import {withStyles} from "@material-ui/core/styles/index";
 import {withRouter} from "react-router-dom";
@@ -10,9 +10,9 @@ const styles = theme => ({
 
     root: {
         minHeight: '450px',
-        paddingBottom:'20px',
+        paddingBottom: '20px',
         boxShadow: '0px 1px 2px rgba(0, 0, 0, 0.1)',
-        cursor:'pointer'
+        cursor: 'pointer'
     },
 
 
@@ -68,8 +68,11 @@ class ResponsiveDialog extends React.Component {
         } = this.props;
         return (
             <Grid container
-                  onClick={() => redirectUrl('/feeds/' + id,this.props.history)}
-                  className={classes.root} alignItems={'center'} direction={'column'}>
+                  onClick={() => redirectUrl('/feeds/' + id, this.props.history)}
+                  className={classes.root} alignItems={'center'}
+
+                  justify={'center'}
+            >
                 <Grid item xs={12}>
                     <Media
                         box={true}
@@ -83,8 +86,7 @@ class ResponsiveDialog extends React.Component {
                             variant={'headline'} color={'primary'}>{title}</Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant={'caption'}>
-                            {'By ' + author + ' / ' + moment(postDate).format('ll') + ' / ' + comments + ' comments'}</Typography>
+                        <Typography variant={'caption'}>{'By ' + author + ' / ' + moment(postDate).format('ll') + ' / ' + comments + ' comments'}</Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant={'body1'} color={'secondary'}>{subTitle}</Typography>

@@ -1,8 +1,8 @@
 import axios from "axios/index";
 
 const Checkout = {
-    getShippingRate: products => axios.post('/rates',products).then(res => res.data.data.rates).catch(err => console.log(err)),
-    placeOrder: data => axios.post('/checkouts',data)
-
+    getShippingRate: products => axios.post('/rates',products).then(res => res.data.data.rates).catch(err =>  []),
+    placeOrder: order => axios.post('/payments',order),
+    getPromoCode: code=> axios.get(`/discounts?code=${code}`)
 }
 export default Checkout

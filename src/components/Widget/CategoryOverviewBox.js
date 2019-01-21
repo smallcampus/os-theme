@@ -16,12 +16,14 @@ const styles = theme => ({
     items: {
 
         textDecoration: 'none',
-        color: theme.palette.primary.main,
+        color: theme.palette.primary.light,
 
     },
     image: {
         position: 'relative',
         height: 200,
+        opacity: 0.85,
+
         [theme.breakpoints.down('xs')]: {
             width: '100% !important', // Overrides inline-style
             height: 100,
@@ -88,9 +90,8 @@ const styles = theme => ({
     },
 });
 
-class ButtonBases extends React.Component {
-    render() {
-        const {classes, category} = this.props
+const  ButtonBases =(props)=> {
+        const {classes,history, category} = props
 
         return (
 
@@ -100,7 +101,7 @@ class ButtonBases extends React.Component {
                         key={i}
                         item sm={10} md={6} lg={4}
                         container
-                        onClick={() => redirectUrl('/shop',this.props.history)}
+                        onClick={() => redirectUrl(`/products?tags=${image.name}`, history)}
                         className={classes.items}
 
                     >
@@ -139,7 +140,6 @@ class ButtonBases extends React.Component {
                 ))}
             </Grid>
         );
-    }
 }
 
 ButtonBases.propTypes = {

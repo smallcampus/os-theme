@@ -5,11 +5,14 @@ import {withStyles} from '@material-ui/core/styles';
 import SearchBar from '../Widget/SearchBar/email'
 import FooterList from '../Widget/FooterList'
 import Tag from '../Widget/Tags/Tag'
+import SocialIcon from '../Widget/SocialIcon'
+import {connect} from "react-redux";
+import {redirectUrl,getTagsCountsArray} from "../../api/ApiUtils";
+import _ from 'lodash'
 
 const styles = theme => ({
     root: {
         padding: '50px 100px 100px 100px',
-        marginTop: '30px',
         backgroundColor: 'black',
         color: 'white',
     },
@@ -19,31 +22,71 @@ const styles = theme => ({
 });
 
 
+const mapStateToProps = state => ({
+    products: state.product.products,
+    feeds: state.feed.feeds,
+    category: state.category.category,
+});
+
+
+const mapDispatchToProps = dispatch => ({}
+)
+
 class Footer extends React.Component {
+
+    getTags = () => {
+        //todo(handle err)
+        const {products, feeds} = this.props
+        let productsArr = getTagsCountsArray(products, () => console.log('ggg'))
+        let productsTags = (productsArr && productsArr.length > 0) ? productsArr.map(n => n.label.slice(0, _.indexOf(n.label, ' '))) : []
+        delete productsTags[_.indexOf(productsTags, 'all')]
+        // let feedsArr = getTagsCountsArray(feeds, () => redirectUrl('/', this.props.history))
+        // let feedsTags = (feedsArr && feedsArr.length > 0) ? feedsArr.map(n => n.label.slice(0, _.indexOf(n.label, ' '))) : []
+        //
+        //
+        // let allTags =_.uniq(productsTags.concat(feedsTags))
+        console.log(productsTags)
+
+        if (productsTags.length > 0) return (
+            <Grid item xs={6} md={3} container direction={'column'} spacing={8}>
+                <Grid item>
+                    <Typography variant={'title'} color={'inherit'}>TAGS</Typography>
+                </Grid>
+                <Grid item>
+                    {
+                        productsTags.map(
+                            (n, i) => <Tag
+                                key={i}
+                                value={n}
+                                onClick={() => redirectUrl(`/products?tags=${n}`, this.props.history)}
+                            />
+                        )
+                    }
+
+                </Grid>
+            </Grid>
+        )
+    }
+
     render() {
         const {classes} = this.props;
         return (
             <Grid container justify={'space-between'} className={classes.root}>
                 <Grid item container lg={12} direction={'column'} spacing={16} className={classes.emailBar}
-                      alignItems={'center'} justify={'center'}>
+                >
                     <Grid item>
-                        <Typography variant={'subheading'} color={'inherit'}>
+                        <Typography variant={'title'} color={'inherit'}>
                             NEWSLETTER
                         </Typography>
                     </Grid>
-                    <Grid item>
-                        <Typography variant={'body1'} color={'inherit'}>
-                            Be the first to hear about new styles and offers and see how you’ve helped.
-                        </Typography>
-                    </Grid>
+
                     <Grid item>
                         <SearchBar/>
                     </Grid>
                 </Grid>
-                <Grid item sm={3} container direction={'column'} spacing={8}>
+                <Grid item xs={12} md={3} container direction={'column'} spacing={8}>
                     <Grid item>
-                        <Typography variant={'title'} color={'inherit'}>THE BELL</Typography>
-
+                        <Typography variant={'title'} color={'inherit'}>MYSHOP</Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant={'caption'} color={'inherit'}>
@@ -55,26 +98,23 @@ class Footer extends React.Component {
                             205 Arapahoe St, Schoenchen, KS 69696
                         </Typography>
                     </Grid>
+
                     <Grid item>
                         <Typography variant={'subheading'} color={'inherit'}>
-
                             Email: your@example.com
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant={'subheading'} color={'inherit'}>
-
                             Phone: +1 123-456-6789
                         </Typography>
                     </Grid>
-                </Grid>
-                <Grid item xs={6} md={3} container direction={'column'} spacing={8}>
                     <Grid item>
-                        <Typography variant={'title'} color={'inherit'}>
-                            USEFUL LINKS</Typography>
-                    </Grid>
-                    <Grid item>
-                        <FooterList/>
+                        <SocialIcon type={'facebook'}/>
+                        <SocialIcon type={'youtube'}/>
+                        <SocialIcon type={'twitter'}/>
+                        <SocialIcon type={'reddit'}/>
+                        <SocialIcon type={'whatsapp'}/>
                     </Grid>
                 </Grid>
                 <Grid item xs={6} md={3} container direction={'column'} spacing={8}>
@@ -85,19 +125,8 @@ class Footer extends React.Component {
                     <Grid item>
                         <FooterList/>
                     </Grid>
-
                 </Grid>
-                <Grid item xs={6} md={3} container direction={'column'} spacing={8}>
-                    <Grid item>
-                        <Typography variant={'title'} color={'inherit'}>TAGS</Typography>
-                    </Grid>
-                    <Grid item>
-                        <Tag value={'color'}/>
-                        <Tag value={'gaming'}/>
-                        <Tag value={'gaming'}/>
-                    </Grid>
-                </Grid>
-
+                {this.getTags()}
             </Grid>);
     }
 }
@@ -106,4 +135,4 @@ Footer.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Footer)
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Footer))

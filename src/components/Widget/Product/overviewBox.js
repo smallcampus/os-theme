@@ -1,9 +1,10 @@
 import React from 'react';
 import {withStyles} from "@material-ui/core/styles/index";
 import {Grid, Typography} from '@material-ui/core';
-import {formatMoney} from "../../../api/ApiUtils";
+import {formatMoney, handleImgValid, } from "../../../api/ApiUtils";
+import {redirectUrl} from '../../../api/ApiUtils'
 import {withRouter} from "react-router-dom";
-import {redirectUrl} from "../../../api/ApiUtils";
+import withWidth, {isWidthDown, isWidthUp} from "@material-ui/core/withWidth/index";
 
 const styles = theme => ({
     name: {
@@ -28,16 +29,23 @@ const styles = theme => ({
         padding: '10px 20px 20px',
         borderRadius: '2px'
     },
-    img: {
+    divImg: {
+        height: '300px',
         cursor: 'pointer',
-        width: '100%',
-        height: '320px !important',
         backgroundSize: 'contain',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
         backgroundColor: '#f8f8f8'
     },
 
+    img: {
+        cursor: 'pointer',
+        width: '100%',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor: '#f8f8f8'
+    },
     oldPrice: {},
     price: {
         color: '#333333',
@@ -48,37 +56,57 @@ const styles = theme => ({
 })
 
 
-class ResponsiveDialog extends React.Component {
+const ProductOverviewBox =(props)=> {
 
-    styles = theme => ({
+   let styles = theme => ({
         content: {
-            "padding": this.props.padding,
+            "padding": props.padding,
             "min-height": "100vh",
-            "background-color": this.props.backgroundColor
+            "background-color": props.backgroundColor
         }
     })
-    handleClickOpen = () => this.setState({open: true});
 
-    handleClose = () => {
-        this.setState({open: false});
-    };
 
-    constructor(props) {
-        super(props);
-        this.myRef = React.createRef();
-        this.state = {
-            open: false,
+
+
+    const {classes, src, name, id,width, category, regPrice, promotePrice,history} = props;
+
+
+    let getImg = () => {
+        return <div
+            style={{
+                backgroundImage: 'url(' + handleImgValid(src) + ')',
+                backgroundColor: 'transparent',
+            }}
+            onClick={() => id && redirectUrl('/products/' + id, history)}
+            className={classes.divImg}/>
+        //responsive forbidden
+        if (isWidthDown('xs', width)) {
+            return <img
+                src={handleImgValid(src)}
+                onClick={() => id && redirectUrl('/products/' + id, history)}
+                className={classes.img}
+            />
         }
+        return isWidthUp('lg', width) ? <div
+                style={{
+                    backgroundImage: 'url(' + handleImgValid(src) + ')',
+
+                }}
+                onClick={() => id && redirectUrl('/products/' + id, history)}
+                className={classes.divImg}/> :
+            <img
+                src={handleImgValid(src)}
+                onClick={() => id && redirectUrl('/products/' + id,history)}
+                className={classes.img}
+            />
     }
 
-    render() {
-        const {classes, src, name, id, category, regPrice, promotePrice} = this.props;
+
 
         return (
             <Grid container className={classes.root} direction={'column'}>
-                <div style={{ backgroundImage: 'url(' + src + ')'}}
-                     onClick={() => id && redirectUrl('/products/' + id,this.props.history)}
-                     className={classes.img}></div>
+                {getImg()}
                 {
                     category && <Typography variant={'headline'}
                                             className={classes.category}
@@ -106,9 +134,7 @@ class ResponsiveDialog extends React.Component {
 
             </Grid>
         );
-    }
 
 }
 
-
-export default withRouter(withStyles(styles)(ResponsiveDialog))
+export default withWidth()(withRouter(withStyles(styles)(ProductOverviewBox)))

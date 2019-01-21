@@ -4,9 +4,21 @@ const theme = createMuiTheme({
     typography: {
         // Use the system font instead of the default Roboto font.
         fontFamily: [
-      'open sans'
+            '-apple-system', 'BlinkMacSystemFont', 'sans-serif'
         ].join(','),
+        fontSize: 14,
+        display1: {
+        fontSize:'25px',
+        },
     },
+    overrides: {
+        MuiButton: { // Name of the component ⚛️ / style sheet
+
+            extendedFab: { // Name of the rule
+boxShadow:'none',
+
+            },
+        },},
     palette: {
         primary: {
             main: '#020103',

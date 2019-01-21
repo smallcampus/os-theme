@@ -1,21 +1,24 @@
+import {CATEGORY_INIT_CATEGORY} from "../constants/actionType";
+
 const defaultState = {
-    category: [{
-        name: 'shop men',
-        img: 'https://d29u17ylf1ylz9.cloudfront.net/thebell-v2/thebell/assets/img/categories/home-two/product-category/home2-category1.jpg'
-    },
-        {
-            name: 'shop kid',
-            img: 'https://d29u17ylf1ylz9.cloudfront.net/thebell-v2/thebell/assets/img/categories/home-two/product-category/home2-category2.jpg'
-        },
-        {
-            name: 'shop women',
-            img: 'https://d29u17ylf1ylz9.cloudfront.net/thebell-v2/thebell/assets/img/categories/home-two/product-category/home2-category3.jpg'
-        },
-    ]
+    category:[]
 };
 
 export default (state = defaultState, action) => {
     switch (action.type) {
+
+        case CATEGORY_INIT_CATEGORY: {
+            return {
+                ...state,
+                category: action.payload.length > 0 ? action.payload.map(
+                    n => ({
+                        name: n,
+                        img: `img/category/${n}.jpeg`
+
+                    })) : []
+            }
+        }
+
 
         default:
             return state
