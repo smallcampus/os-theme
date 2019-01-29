@@ -7,9 +7,11 @@ import {CART_EDIT_BILLING_DETAIL} from "../../constants/actionType";
 import InputBar from '../Widget/InputBar'
 import agent from '../../agent'
 import classNames from 'classnames'
-import {withSnackbar} from 'notistack';
-const TAX_RATE = 0.07;
+import CountryCode from '../Widget/Input/Country'
 
+import {withSnackbar} from 'notistack';
+
+const TAX_RATE = 0.07;
 const styles = theme => ({
     root: {
         width: '100%',
@@ -88,7 +90,7 @@ class ShoppingCartTable extends React.Component {
 
         return <Grid item container justify={'space-between'} xs={12}>
             {hasValidShippingMethod ? <Grid item xs={12}>
-                <Typography variant={'title'}>
+                <Typography variant={'h6'}>
                     Shipping Options
                 </Typography>
             </Grid> : null}
@@ -102,7 +104,7 @@ class ShoppingCartTable extends React.Component {
                                 item container xs={4}>
                                 <Grid item>
 
-                                    <Typography variant={'body2'}>
+                                    <Typography variant={'body1'}>
                                         name: {n.courier.name}
                                     </Typography>
                                     <Typography variant={'body1'}>
@@ -134,30 +136,18 @@ class ShoppingCartTable extends React.Component {
 
     }
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            l: false,
-        };
-    }
-
-    componentDidMount() {
-
-
-    }
 
     componentDidUpdate(prevProps, prevState, snapShot) {
 
         if (this.props.billingDetail.shippingOptions === undefined && this.props.billingDetail.address) {
             this.getShippingRate()
-
         }
     }
 
     render() {
         const {classes, billingDetail, shoppingCart} = this.props;
         return (
-            <Grid container spacing={16}>
+            <Grid container spacing={16} className={classes.root}>
 
                 <Grid item xs={6}>
                     <InputBar
@@ -189,75 +179,81 @@ class ShoppingCartTable extends React.Component {
                     />
 
                 </Grid>
+
                 <Grid item xs={6}>
-                    <InputBar
-                        title={'Phone Number'}
-                        placeholder={'Phone Number'}
-                        onChange={value => this.props.editBillingDetail('phone', value)}
-                        value={billingDetail.phone}
-                    />
-                </Grid>
-                <Grid item xs={4}>
                     <InputBar
                         title={'City'}
                         placeholder={'City'}
-
                         onChange={value => this.props.editBillingDetail('city', value)}
                         value={billingDetail.city}
                     />
 
-                </Grid> <Grid item xs={4}>
+                </Grid> <Grid item xs={6}>
                 <InputBar
                     title={'Country'}
                     placeholder={'Country'}
-
                     onChange={value => this.props.editBillingDetail('country', value)}
                     value={billingDetail.country}
                 />
 
             </Grid>
-                <Grid item xs={12}>
-                    <InputBar
-                        title={'Street Address'}
-                        placeholder={'Street Address'}
-
-                        onChange={value => this.props.editBillingDetail('address', value)}
-                        value={billingDetail.address}
-                    />
-
-                </Grid>
-
-
-                <Grid item xs={12}>
+                <Grid item xs={6}>
                     <InputBar
                         validation={
                             {
-                                blocks: [3, 3],
-                                delimiter: '-',
+                                format: '###-###',
                             }
                         }
                         title={'Postcode/ZIP'}
                         placeholder={'Postcode/ZIP'}
-
                         onChange={value => this.props.editBillingDetail('zipCode', value)}
                         value={billingDetail.zipCode}
                     />
 
                 </Grid>
+                <Grid item xs={6}>
+                    <CountryCode
+                        value={billingDetail.countryCode}
+                        onChange={value => this.props.editBillingDetail('countryCode', value)}
+                    />
+                </Grid>
+                <Grid item xs={6}>
+                    <InputBar
+                        placeholder={'please enter ur phone number for contact'}
+                        validation={
+                            {
+                                prefix: `${billingDetail.countryCode.value}`,
+                            }
+                        }
+                        onChange={value => this.props.editBillingDetail('phone', value)}
+                        value={billingDetail.phone}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <InputBar
+                        title={'Street Address'}
+                        placeholder={'Street Address'}
+                        onChange={value => this.props.editBillingDetail('address', value)}
+                        value={billingDetail.address}
+                    />
+                </Grid>
 
                 <Grid item xs={12}>
                     <InputBar
                         validation={
                             {
-                                creditCard: true,
+                                format: '#### #### #### ####',
                             }
                         }
                         title={'visa number'}
-                        placeholder={'visa number'}
+                        placeholder={'please enter your visa number'}
+                        type="visa"
 
                         onChange={value => this.props.editBillingDetail('visaNumber', value)}
                         value={billingDetail.visaNumber}
+
                     />
+
                 </Grid>
 
                 <Grid item xs={6}>
@@ -266,8 +262,8 @@ class ShoppingCartTable extends React.Component {
                         placeholder={'MM/YY'}
                         validation={
                             {
-                                blocks: [2, 2],
-                                delimiter: '/',
+                                format: '##/##',
+                                mask: ['M', 'M', 'Y', 'Y'],
                             }
                         }
                         onChange={value => this.props.editBillingDetail('expiryDate', value)}
@@ -280,16 +276,15 @@ class ShoppingCartTable extends React.Component {
                         placeholder={'XXX'}
                         validation={
                             {
-                                blocks: [3],
+                                format: '###',
                             }
                         }
                         onChange={value => this.props.editBillingDetail('cvc', value)}
                         value={billingDetail.cvc}
                     />
                 </Grid>
-                {
-                    this.getShippingMethod()
-                }
+
+                {this.getShippingMethod()}
             </Grid>
 
         )

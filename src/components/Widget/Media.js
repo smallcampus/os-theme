@@ -87,7 +87,7 @@ class Media extends React.Component {
 
 
                 />
-            ) : <Typography variant={'title'}>
+            ) : <Typography variant={'h6'}>
                 there should be product {productId} here, but product {productId} is no longer exist</Typography>
         }
         if (this.props.box && data[0].ext !== 'mp4') {
@@ -117,7 +117,7 @@ class Media extends React.Component {
 
         return <Grid container justify={'center'}
         >
-            <Grid item xs={11} lg={this.state.type === 'product' && !box ? 6 : 11}>
+            <Grid item xs={12} lg={this.state.type === 'product' && !box ? 6 : 12}>
                 {this.getMedia(data)}
             </Grid>
 
@@ -126,5 +126,5 @@ class Media extends React.Component {
 
     }
 }
-
+//todo(unsafe)
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Media))

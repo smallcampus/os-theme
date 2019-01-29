@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import withWidth from "@material-ui/core/withWidth/index";
@@ -65,6 +65,8 @@ const mapDispatchToProps = dispatch => ({
 )
 
 const MyCredits = props=>  {
+
+    let dialogRef = useRef()
     const {classes, width,history} = props;
 
     let  logout = () => {
@@ -75,7 +77,7 @@ const MyCredits = props=>  {
 
                 content: (<Grid container alignItems={'center'} direction={'column'}>
                     <Grid item>
-                    <span className={'icon-like'}
+                        {false && <span className={'icon-like'}
 
                           style={{
                               fontSize: '80px',
@@ -89,15 +91,15 @@ const MyCredits = props=>  {
                               borderRadius: '50%',
                               boxSizing: 'content-box',
                           }}
-                    />
+                    />}
                     </Grid>
                     <Grid item>
-                        <Typography variant={'display1'}>
+                        <Typography variant={'h4'}>
                             You have successfully logout!
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant={'subHeading'}>
+                        <Typography variant={'subtitle1'}>
                             see you </Typography>
                     </Grid>
 
@@ -108,65 +110,20 @@ const MyCredits = props=>  {
             , 1000
         )
     }
-  let   getDialog = () => {
-
-        const {classes, width, user,history} = props;
-        return (!_.isEmpty(user)) ? <Grid container
-                  className={classes.dialog}
-                  justify={'center'}
-                  alignItems={'center'}
-            >
-                <Grid item xs={12} className={classes.textAlign}>
-                    <Typography>{`${user.name.first} ${user.name.last} welcome back`}</Typography>
-                </Grid>
-                <Grid item xs={8}>
-                    <CustomButton
-                        onClick={logout}
-                        value={'Logout'}
-                    />
-                </Grid>
-            </Grid> : <Grid container
-                      className={classes.dialog}
-                      justify={'center'}
-                      alignItems={'center'}
-                >
-
-                    <Grid item xs={12} className={classes.textAlign}>
-                        <Typography>
-                            Log in or sign up to earn rewards today
-                        </Typography>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <CustomButton
-                            onClick={() => redirectUrl('/login',history)}
-                            value={'Log In'}
-                        />
-                    </Grid>
-                    <Grid item xs={1}/>
-
-                    <Grid item xs={4}>
-
-                        <CustomButton
-                            onClick={() => redirectUrl('/register',history)}
-
-                            value={'Register'}
-                        />
-                    </Grid>
-
-                </Grid>
-
-    }
 
 
         return (
             <Grid container justify={'flex-end'} className={classes.root}>
                 <Dialog
                     opacity={true}
-                    innerRef={e => this.dialog = e}
+                    ref={dialogRef}
                     title={
                         <Button className={classes.button}>My Credits</Button>
                     }
-                    dialog={<MyAccount/>}
+                    dialog={<MyAccount
+                        dialog={dialogRef.current}
+
+                    />}
                 />
 
             </Grid>

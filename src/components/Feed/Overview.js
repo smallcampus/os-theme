@@ -83,7 +83,7 @@ class ResponsiveDialog extends React.Component {
                 <Grid item container justify={'center'} xs={12} lg={11} spacing={16}>
                     <Grid item lg={3} container direction={'column'} spacing={16} xs={11}>
                         <Grid item>
-                            <Typography variant={'title'}>SEARCH</Typography>
+                            <Typography variant={'h6'}>SEARCH</Typography>
                         </Grid>
                         <Grid item>
                             <SearchBar
@@ -110,7 +110,7 @@ class ResponsiveDialog extends React.Component {
                                         ) ? n.sections.find(section => section.medias[0]).medias[0].url :
                                             'https://www.freeiconspng.com/uploads/no-image-icon-15.png'}
 
-                                        subTitle={refactorParaLength(111)}
+                                        subTitle={refactorParaLength(n.sections[0].description)}
                                         title={n.sections[0].title}
                                         author={n.authors.length > 0 ? n.authors[0].name.first + ' ' + n.authors[0].name.last : 'no authors'}
                                         postDate={n.postDate}
@@ -119,7 +119,7 @@ class ResponsiveDialog extends React.Component {
                                 </Grid>) :
 
 
-                            <Typography variant={'subheading'}> there are no posts available yet</Typography>
+                            <Typography variant={'subtitle1'}> there are no posts available yet</Typography>
 
 
                             : <LoadingPage/>}

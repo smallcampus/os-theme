@@ -2,7 +2,7 @@ import {AUTH_INIT_TOKEN, AUTH_INIT_USER_PROFILE} from "../constants/actionType";
 
 
 const defaultState = {
-    user: {},
+    user: null,
     token: '',
 };
 
@@ -15,7 +15,6 @@ export default (state = defaultState, action) => {
             }
         }
         case AUTH_INIT_USER_PROFILE: {
-console.log(action.payload)
             return {
                 ...state,
                 user: action.payload,

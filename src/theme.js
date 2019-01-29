@@ -2,23 +2,31 @@ import {createMuiTheme} from '@material-ui/core'
 
 const theme = createMuiTheme({
     typography: {
+        useNextVariants: true,
+
         // Use the system font instead of the default Roboto font.
         fontFamily: [
             '-apple-system', 'BlinkMacSystemFont', 'sans-serif'
         ].join(','),
         fontSize: 14,
-        display1: {
-        fontSize:'25px',
+        h4: {
+            fontSize: '25px',
         },
     },
     overrides: {
+        MuiOutlinedInput:{
+            root:{
+
+
+            }
+
+        },
         MuiButton: { // Name of the component ⚛️ / style sheet
-
             extendedFab: { // Name of the rule
-boxShadow:'none',
-
+                boxShadow: 'none',
             },
-        },},
+        },
+    },
     palette: {
         primary: {
             main: '#020103',

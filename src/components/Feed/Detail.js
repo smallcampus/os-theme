@@ -27,6 +27,13 @@ const styles = theme => (
         backArrow: {
             cursor: 'pointer',
 
+        },
+        basicInfo:{
+            paddingBottom:'10px',
+        },
+        basicInfoText:{
+            display:"inline-block",
+            paddingLeft:'5px',
         }
     })
 
@@ -57,9 +64,7 @@ const FeedDetail = (props) => {
         const feed = feeds.find(n => n.id.toString() === match.params.id)
         return (
             <Grid container justify={'center'} className={classes.root}>
-                <Header
-                    title={refactorTextLength(feed.sections[0].title)}
-                />
+                <Header title={refactorTextLength(feed.sections[0].title)}/>
                 <Grid item container spacing={16} xs={12} lg={10}>
                     {
                         false && <Grid item container alignItems={'center'} xs={12}
@@ -67,7 +72,7 @@ const FeedDetail = (props) => {
                                        className={classes.backArrow}>
                             <span
                                 className={classNames('icon-circle-left', classes.backIcon)}/>
-                            <Typography variant={'title'}>
+                            <Typography variant={'h6'}>
                                 back to feed
                             </Typography>
                         </Grid>
@@ -83,20 +88,21 @@ const FeedDetail = (props) => {
 
                     </Grid>
                     <Grid item container xs={12} md={9}>
-                        <Grid item container direction={'row'} alignItems={'center'} spacing={16} xs={12}>
+                        <Grid item container direction={'row'}
+                              justify={'space-between'}
+                              alignItems={'center'}
+                              className={classes.basicInfo}
+
+                              spacing={16} xs={12}>
                             <Grid item>
-                                <span className={'icon-quill'}/>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant={'subheading'}>
+                                <span className={'icon-icons8-edit'}/>
+                                 <Typography variant={'subtitle1'} className={classes.basicInfoText}>
                                     {feed.authors.length > 0 ? feed.authors[0].name.first + ' ' + feed.authors[0].name.last : 'no authors'}
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <span className={'icon-calendar'}/>
-                            </Grid>
-                            <Grid item>
-                                <Typography variant={'subheading'}>
+                                <span className={'icon-icons8-calendar'}/>
+                                <Typography variant={'subtitle1'} className={classes.basicInfoText}>
                                     {moment(feed.time).format('MMM Do YYYY')}
                                 </Typography>
                             </Grid>

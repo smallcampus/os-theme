@@ -7,7 +7,14 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {formatMoney, handleImgValid, redirectUrl, refactorTextLength, refactorTitle} from "../../api/ApiUtils";
+import {
+    formatExpiryDate,
+    formatMoney,
+    handleImgValid,
+    redirectUrl,
+    refactorTextLength,
+    refactorTitle
+} from "../../api/ApiUtils";
 import {connect} from "react-redux";
 import * as styleGuide from '../../constants/styleGuide'
 import {withSnackbar} from 'notistack';
@@ -66,7 +73,8 @@ const mapDispatchToProps = dispatch => ({
 )
 
 class OrderSummary extends React.Component {
-    getRowPrice = product => product.product.variants.find(variant => variant.id === product.variantId).price * product.number
+    getRowPrice = product => (product.product.variants.find(variant => variant.id === product.variantId)?
+        product.product.variants.find(variant => variant.id === product.variantId):product.product).price * product.number
     placeOrder = async () => {
         const {billingDetail} = this.props
         const data = {
@@ -84,7 +92,8 @@ class OrderSummary extends React.Component {
                 "zipCode": billingDetail.zipCode,
                 "country": billingDetail.country,
             },
-            "payment": {"number": billingDetail.visaNumber, "cvc": billingDetail.cvc, "date": billingDetail.expiryDate},
+            "payment": {"number": billingDetail.visaNumber, "cvc": billingDetail.cvc, "date": formatExpiryDate(billingDetail.expiryDate)
+            },
             "startPurchase": false,
 
             "shipping": billingDetail.selectedShippingMethod,
@@ -120,7 +129,7 @@ class OrderSummary extends React.Component {
 
                         content: (<Grid container direction={'column'}>
                             <Grid item>
-                                <Typography variant={'title'}>
+                                <Typography variant={'h6'}>
                                     {
                                         "your contact id is " + result[0].id
 
@@ -128,7 +137,7 @@ class OrderSummary extends React.Component {
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Typography variant={'body2'}>
+                                <Typography variant={'body1'}>
                                     {
                                         false && " your contact number is " + this.props.billingDetail.phone
                                     }
@@ -151,7 +160,7 @@ class OrderSummary extends React.Component {
 
                                                 </Grid>
                                                 <Grid item sm={9}>
-                                                    <Typography variant={'body2'}>
+                                                    <Typography variant={'body1'}>
                                                         {refactorTextLength(n.product.name)}
                                                     </Typography>
                                                     <Typography variant={'caption'}>
@@ -183,7 +192,7 @@ class OrderSummary extends React.Component {
 
                                         </Grid>
                                         <Grid item sm={9}>
-                                            <Typography variant={'body2'}>
+                                            <Typography variant={'body1'}>
                                                 {billingDetail.coupons.title}
                                             </Typography>
 
@@ -259,7 +268,9 @@ class OrderSummary extends React.Component {
     }
 
     render() {
-        const {classes, shoppingCart,billingDetail} = this.props;
+        const {classes, shoppingCart,billingDetail} = this.props
+        const selectedVariant=n => n.product.variants.find(variant => variant.id === n.variantId)?
+            n.product.variants.find(variant => variant.id === n.variantId):n.product
         return (
             <Paper className={classes.root}>
                 <Table className={classes.table}>
@@ -274,10 +285,10 @@ class OrderSummary extends React.Component {
                          {shoppingCart.map((n, i) =>
                         <TableRow key={i}>
                             <TableCell className={classes.block}>
-                                {refactorTitle(n.product.name)} X {n.number}( {n.product.variants.find(variant => variant.id === n.variantId).description})
+                                {refactorTitle(n.product.name)} X {n.number}( {selectedVariant(n).description})
                             </TableCell>
                             <TableCell className={classes.block} numeric>
-                                {'$ ' + formatMoney(n.product.variants.find(variant => variant.id === n.variantId).price * n.number)}
+                                {'$ ' + formatMoney(selectedVariant(n).price * n.number)}
                             </TableCell>
                         </TableRow>)
 

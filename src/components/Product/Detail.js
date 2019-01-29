@@ -3,7 +3,7 @@ import {Button, Divider, Grid, Typography} from '@material-ui/core';
 import {withStyles} from '@material-ui/core/styles';
 import {connect} from 'react-redux'
 import SocialIcon from '../Widget/SocialIcon'
-import ColorPick from '../Widget/ColorPicker'
+import ColorPick from '../Widget/ColorPicker.tsx'
 import Counter from '../Widget/Counter'
 import {formatMoney} from "../../api/ApiUtils";
 import Tag from '../Widget/Tags/Tag'
@@ -11,7 +11,7 @@ import {CART_EDIT_VARIANT, CART_EMPTY_PRODUCT_VARIANT, CART_SAVE_PRODUCT_TO_CART
 import LoadingPage from '../Layout/LoadingPage'
 import {withRouter} from 'react-router-dom'
 import swal from '@sweetalert/with-react'
-
+import Detail from './Details/Details'
 import Slick from '../Widget/Slick/Products'
 import withWidth, {isWidthUp} from "@material-ui/core/withWidth/index";
 
@@ -100,32 +100,31 @@ class ResponsiveDialog extends React.Component {
         this.props.dispatchDraftToCart(product, productCount, selectedVariantId)
         swal(
             {
-
                 content: (<Grid container alignItems={'center'} direction={'column'}>
                     <Grid item>
-                    <span className={'icon-like'}
+                        {false && <span className={'icon-like'}
 
-                          style={{
-                              fontSize: '80px',
-                              color: 'hsla(100,55%,69%,.5)',
-                              padding: '20px',
+                                        style={{
+                                            fontSize: '80px',
+                                            color: 'hsla(100,55%,69%,.5)',
+                                            padding: '20px',
 
-                              display: 'block',
-                              width: '80px',
-                              height: '80px',
-                              border: '4px solid hsla(98,55%,69%,.2)',
-                              borderRadius: '50%',
-                              boxSizing: 'content-box',
-                          }}
-                    />
+                                            display: 'block',
+                                            width: '80px',
+                                            height: '80px',
+                                            border: '4px solid hsla(98,55%,69%,.2)',
+                                            borderRadius: '50%',
+                                            boxSizing: 'content-box',
+                                        }}
+                        />}
                     </Grid>
                     <Grid item>
-                        <Typography variant={'display1'}>
+                        <Typography variant={'h4'}>
                             Congratulation!
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography variant={'subHeading'}>
+                        <Typography variant={'subtitle1'}>
                             items added! </Typography>
                     </Grid>
 
@@ -161,29 +160,29 @@ class ResponsiveDialog extends React.Component {
             <Grid item container spacing={16}>
                 <Grid item>
                     <Typography
-                        variant={'display2'}
+                        variant={'h3'}
                         className={classes.name}>{name}
                     </Typography>
                 </Grid>
                 <Grid item container direction={'row'}>
                     {promotePrice ? <Fragment>
-                            <Typography variant={'headline'}
+                            <Typography variant={'h5'}
                                         className={classes.price}>$ {formatMoney(promotePrice)}</Typography>
-                            <Typography component={'del'} variant={'subheading'}
+                            <Typography component={'del'} variant={'subtitle1'}
                                         color={'secondary'}>$ {formatMoney(
                                 selectedVariant.price)}</Typography>
                         </Fragment> :
-                        <Typography variant={'headline'}
+                        <Typography variant={'h5'}
                                     className={classes.price}>$ {formatMoney(
                             selectedVariant.price)}</Typography>
                     }
                 </Grid>
                 <Grid item container spacing={8} direction={'column'} alignItems={'flex-start'}>
                     <Grid item>
-                        <Typography variant={'subheading'} className={classes.statusLabel}>In Stock</Typography></Grid>
+                        <Typography variant={'subtitle1'} className={classes.statusLabel}>In Stock</Typography></Grid>
                     <Grid item>
 
-                        <Typography variant={'title'}>
+                        <Typography variant={'h6'}>
                             SKU MH03</Typography></Grid>
                 </Grid>
                 <Grid item xs={12}>
@@ -198,7 +197,7 @@ class ResponsiveDialog extends React.Component {
                     {
                         variantKeys.map((n, i) =>
                             <Fragment key={i}>
-                                <Typography variant={'title'}>
+                                <Typography variant={'h6'}>
                                     {n}
                                 </Typography>
                                 {this.getVariant(n, i, variantOptions)}
@@ -251,7 +250,7 @@ class ResponsiveDialog extends React.Component {
 
 
                 <Grid item style={{marginTop: 15}}>
-                    <Typography variant={'title'} style={{fontSize: 15}}>
+                    <Typography variant={'h6'} style={{fontSize: 15}}>
                         SHARE THIS PRODUCT:
                     </Typography>
                 </Grid>
@@ -274,8 +273,7 @@ class ResponsiveDialog extends React.Component {
         return <Grid item container xs={10} sm={5}>
             <Grid item xs={12}>
                 <Slick
-                    data=
-                        {(selectedVariant.photos.length > 0 ? selectedVariant : product).photos.map(n => ({url: n.url,}))}
+                    data={(selectedVariant.photos.length > 0 ? selectedVariant : product).photos.map(n => ({url: n.url,}))}
 
                 />
             </Grid>
@@ -283,7 +281,7 @@ class ResponsiveDialog extends React.Component {
     }
 
     componentDidMount() {
-        this.initVariant()
+      if(this.props.variantKeys)  this.initVariant()
 
     }
 
@@ -292,17 +290,46 @@ class ResponsiveDialog extends React.Component {
     }
 
     render() {
-        const selectedVariant = this.findSelectedVariant()
+        const {
+            variantOptions, product, variantKeys
+        } = this.props
         const position = (isWidthUp('sm', this.props.width) || this.props.width === 'sm')
-        return (
-            selectedVariant ?
-                <Grid container spacing={16} alignItems={'flex-start'} justify={'center'}>
-                    {position ? this.getDetail(selectedVariant) : null}
-                    {this.getSlick(selectedVariant)}
-                    {!position ? this.getDetail(selectedVariant) : null}
-                </Grid> : <LoadingPage/>
 
-        );
+      if  (variantOptions&&variantKeys&&variantOptions.length < 1 && variantKeys.length <1)    {
+          if(product){
+
+              return <Grid container spacing={16} alignItems={'flex-start'} justify={'center'}>
+                  {position ? <Detail {...this.props}
+                                      selectedVariant={this.props.product} /> : null}
+
+                  <Grid item container xs={10} sm={5}>
+                      <Grid item xs={12}>
+                          <Slick
+                              data={product.photos? product.photos.map(n => ({url: n.url,})):[]}
+                          />
+                      </Grid>
+                  </Grid>
+
+                  {!position ? <Detail {...this.props}
+                                       selectedVariant={this.props.product}
+                  /> : null}
+
+              </Grid>
+          }else  return null
+      }
+        else {
+          const selectedVariant = this.findSelectedVariant()
+          return (
+              selectedVariant ?
+                  <Grid container spacing={16} alignItems={'flex-start'} justify={'center'}>
+                      {position ? this.getDetail(selectedVariant) : null}
+                      {this.getSlick(selectedVariant)}
+                      {!position ? this.getDetail(selectedVariant) : null}
+                  </Grid> : <LoadingPage/>
+
+          );
+
+      }
 
     }
 }
@@ -321,7 +348,7 @@ export default withWidth()(withRouter(connect(mapStateToProps, mapDispatchToProp
 //     }
 //     container direction={'column'} spacing={32} alignItems={'center'}>
 //     <Grid item>
-//         <Typography variant={'title'}>
+//         <Typography variant={'h6'}>
 //             do u want to add to cart?
 //         </Typography>
 //     </Grid>

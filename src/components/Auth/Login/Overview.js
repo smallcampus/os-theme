@@ -72,7 +72,7 @@ const Login = (props)=> {
                         {
                             content: (<Grid container alignItems={'center'} direction={'column'}>
                                 <Grid item>
-                    <span className={'icon-like'}
+                                    { false &&   <span className={'icon-like'}
 
                           style={{
                               fontSize: '80px',
@@ -86,10 +86,10 @@ const Login = (props)=> {
                               borderRadius: '50%',
                               boxSizing: 'content-box',
                           }}
-                    />
+                    />}
                                 </Grid>
                                 <Grid item>
-                                    <Typography variant={'display1'}>
+                                    <Typography variant={'h4'}>
                                         Welcome back!
                                     </Typography>
                                 </Grid>
@@ -121,7 +121,7 @@ const Login = (props)=> {
             <Grid item container spacing={16} md={8} xs={12} lg={6} direction={'column'}
                   className={classes.innerRoot}>
                 <Grid item>
-                    <Typography className={classes.title} variant={'display1'}>
+                    <Typography className={classes.title} variant={'h4'}>
                         Login
 
                     </Typography>
@@ -144,7 +144,7 @@ const Login = (props)=> {
                 <Grid item xs={12}>
                     <Typography
                         className={classes.blueUnderline}
-                        variant={'title'}>
+                        variant={'h6'}>
                         Forgot your password?
                     </Typography>
                 </Grid>
@@ -158,7 +158,7 @@ const Login = (props)=> {
                 <Grid item xs={12}>
                     <Typography
                         onClick={() => redirectUrl('/', history)}
-                        className={classes.blueUnderline} variant={'title'}>
+                        className={classes.blueUnderline} variant={'h6'}>
                         Return to Store
                     </Typography>
                 </Grid>

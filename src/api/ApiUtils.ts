@@ -3,6 +3,7 @@ import history from 'history'
 import {Clickable, RoutePath, Tag, VariantOptions} from "../interfaces/client/Common";
 import {Product, Variant} from "../interfaces/server/Product";
 import {Section} from "../interfaces/server/Feed";
+import {Image} from "@material-ui/icons";
 
 export const refactorParaLength = (content: string, length: number = 45): string =>
     content.length > length ? content.slice(0, length).concat('...') : content
@@ -123,9 +124,9 @@ export const formatMoney = (n: any, c = 2, d = '.', t = ','): string => {
 }
 
 
-export const getTagsCountsArray = (products: Array<Product> | null, onClick: Function): Array<Clickable> | null => {
+export const getTagsCountsArray = (products: Array<Product> | null, onClick: Function): Array<Clickable> => {
     let tagsArray: Array<string> = []
-    if (!products) return null
+    if (!products) return []
     products.map(n => (n.tags.length > 0) ? n.tags.map((k: string): void => {
         tagsArray.push(k)
     }) : null)
@@ -150,7 +151,7 @@ export const getTagsCountsArray = (products: Array<Product> | null, onClick: Fun
 //todo('need to rebuild")
 
 export const getVariantOptions = (variants: Array<Variant>): Array<VariantOptions> => {
-    let variantOverview: any = []
+    let variantOverview:any = []
     variants.map(option => {
         option.description.split(',').forEach((opt) => {
             let splitOpt: Array<string> = opt.split(':')
@@ -166,15 +167,12 @@ export const isImgOnlySections = (sections: Array<Section>) => (
     && (sections[0].medias[0].ext.indexOf('product') === -1
     ))
 export const handleImgValid = (img: any): string => img ? img.url ? img.url : img : '/notFound/not-found-image.jpg'
-export const stringToTags = (string?:any):Array<Tag> =>
-{
-
-    console.log(string)
- return   (string) ? (string.search(',') !== -1) ? _.uniq(_.split(string, ',')).filter(k => k !== '')
+export const stringToTags = (string?:string):Array<Tag> => (string) ? (string.search(',') !== -1) ? _.uniq(_.split(string, ',')).filter(k => k !== '')
     .map((n:any, i) =>
     n = {
         label: n,
         value: n,
     }) : [{label: string, value: string,}] : []
 
-}
+export const formatExpiryDate=(date:string):string=>(date&&date.length===4)?date.slice(0,2).concat('/',date.slice(2,4)):date
+export const CounterValidation = (num:number):number=> (num >0) ?num:1

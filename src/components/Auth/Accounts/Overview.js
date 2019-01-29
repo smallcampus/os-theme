@@ -50,28 +50,28 @@ const logout = (props) => {
                 {
                     content: (<Grid container alignItems={'center'} direction={'column'}>
                         <Grid item>
-                    <span
-                        className={'icon-like'}
-                        style={{
-                              fontSize: '80px',
-                              color: 'hsla(100,55%,69%,.5)',
-                              padding: '20px',
-                              display: 'block',
-                              width: '80px',
-                              height: '80px',
-                              border: '4px solid hsla(98,55%,69%,.2)',
-                              borderRadius: '50%',
-                              boxSizing: 'content-box',
-                          }}
-                    />
+                            {false && <span
+                                className={'icon-like'}
+                                style={{
+                                    fontSize: '80px',
+                                    color: 'hsla(100,55%,69%,.5)',
+                                    padding: '20px',
+                                    display: 'block',
+                                    width: '80px',
+                                    height: '80px',
+                                    border: '4px solid hsla(98,55%,69%,.2)',
+                                    borderRadius: '50%',
+                                    boxSizing: 'content-box',
+                                }}
+                            />}
                         </Grid>
                         <Grid item>
-                            <Typography variant={'display1'}>
+                            <Typography variant={'h4'}>
                                 You have successfully logout!
                             </Typography>
                         </Grid>
                         <Grid item>
-                            <Typography variant={'subHeading'}>
+                            <Typography variant={'subtitle1'}>
                                 see you </Typography>
                         </Grid>
 
@@ -83,7 +83,7 @@ const logout = (props) => {
 }
 
 const MyAccount = (props) => {
-    const {classes, width, user,history} = props;
+    const {classes, width, user, history} = props;
     return (!_.isEmpty(user)) ?
 
         <Grid container
@@ -93,7 +93,12 @@ const MyAccount = (props) => {
         >
 
             <Grid item xs={12} className={classes.textAlign}>
-                <Typography>{`${user['first_name']} ${user['last_name']} welcome back`}</Typography>
+                <Typography>
+                    {
+
+                        ((user['first_name']) && (user['last_name'])) ?
+                            `${user['first_name']} ${user['last_name']} welcome back` : 'welcome back'}
+                </Typography>
             </Grid>
             <Grid item xs={8}>
                 <CustomButton
@@ -116,14 +121,21 @@ const MyAccount = (props) => {
                 </Grid>
                 <Grid item xs={4}>
                     <CustomButton
-                        onClick={() => redirectUrl('/login',history)}
+                        onClick={() => {
+                            props.dialog && props.dialog.handleClose()
+                            redirectUrl('/login', history)
+                        }}
+
                         value={'Log In'}/>
                 </Grid>
                 <Grid item xs={1}/>
                 <Grid item xs={4}>
 
                     <CustomButton
-                        onClick={() => redirectUrl('/register',history)}
+                        onClick={() => {
+                            props.dialog && props.dialog.handleClose()
+                            redirectUrl('/register', history)
+                        }}
 
                         value={'Register'}
                     />
