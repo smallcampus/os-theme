@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a5acf1eb-117b-46c6-b2f5-4486c1753bc2" name="Default" comment="restructure flow">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Checkout/OrderSummary.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Checkout/OrderSummary.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout/SwalContent.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout/SwalContent.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Product/Detail.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Product/Detail.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/constants/Style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/constants/Style.css" afterDir="false" />
-    </list>
+    <list default="true" id="a5acf1eb-117b-46c6-b2f5-4486c1753bc2" name="Default" comment="restructure flow" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,96 +10,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Layout/SwalContent.tsx">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="32" column="26" selection-start-line="32" selection-start-column="26" selection-end-line="32" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#26#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Layout/Header.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3468">
-              <caret line="223" column="50" selection-start-line="223" selection-start-column="50" selection-end-line="223" selection-end-column="50" />
-              <folding>
-                <element signature="e#0#50#0" expanded="true" />
-                <element signature="e#6788#7397#0" />
-                <element signature="e#6922#7292#0" />
-                <element signature="e#7680#8289#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/agent.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="17" selection-start-line="17" selection-end-line="17" />
-              <folding>
-                <element signature="e#0#25#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Auth/Login/Overview.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1054">
-              <caret line="77" column="34" selection-start-line="77" selection-start-column="34" selection-end-line="77" selection-end-column="34" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/Checkout/OrderSummary.js">
+        <entry file="file://$PROJECT_DIR$/src/components/Widget/List.tsx">
+          <provider selected="true" editor-type-id="text-editor" />
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/api/ApiUtils.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="153" column="29" selection-start-line="153" selection-start-column="29" selection-end-line="153" selection-end-column="29" />
+            <state relative-caret-position="-902">
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#98#120#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/constants/Style.css">
+        <entry file="file://$PROJECT_DIR$/src/components/Widget/DropDown.tsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="408">
-              <caret line="24" column="1" selection-start-line="24" selection-start-column="1" selection-end-line="24" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/img/snackBar/stripe.png">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/notFound/not-found-image.jpg">
-          <provider selected="true" editor-type-id="images" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/components/Product/Detail.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1989">
-              <caret line="134" column="37" selection-start-line="134" selection-start-column="37" selection-end-line="134" selection-end-column="37" />
-              <folding>
-                <element signature="e#0#38#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="126">
+              <caret line="67" selection-start-line="67" selection-end-line="67" />
             </state>
           </provider>
         </entry>
@@ -113,7 +39,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/Checkout/Overview.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1037">
+            <state relative-caret-position="488">
               <caret line="79" column="35" selection-start-line="79" selection-start-column="35" selection-end-line="79" selection-end-column="35" />
               <folding>
                 <element signature="e#0#38#0" expanded="true" />
@@ -273,6 +199,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -295,13 +222,6 @@
               <item name="os-theme" type="b2602c69:ProjectViewProjectNode" />
               <item name="os-theme" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="img" type="462c0819:PsiDirectoryNode" />
-              <item name="snackBar" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="os-theme" type="b2602c69:ProjectViewProjectNode" />
-              <item name="os-theme" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="notFound" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -313,6 +233,12 @@
               <item name="os-theme" type="b2602c69:ProjectViewProjectNode" />
               <item name="os-theme" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="api" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="os-theme" type="b2602c69:ProjectViewProjectNode" />
+              <item name="os-theme" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -320,33 +246,39 @@
               <item name="os-theme" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Checkout" type="462c0819:PsiDirectoryNode" />
+              <item name="Auth" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="os-theme" type="b2602c69:ProjectViewProjectNode" />
               <item name="os-theme" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Layout" type="462c0819:PsiDirectoryNode" />
+              <item name="Search" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="os-theme" type="b2602c69:ProjectViewProjectNode" />
               <item name="os-theme" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Product" type="462c0819:PsiDirectoryNode" />
+              <item name="Shop" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="os-theme" type="b2602c69:ProjectViewProjectNode" />
               <item name="os-theme" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="constants" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Widget" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="os-theme" type="b2602c69:ProjectViewProjectNode" />
+              <item name="os-theme" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="context" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
     </panes>
   </component>
@@ -374,19 +306,19 @@
     <property name="ts.external.directory.path" value="$PROJECT_DIR$/node_modules/typescript/lib" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/scripts" />
-      <recent name="$PROJECT_DIR$/src/components/Auth/" />
-      <recent name="$PROJECT_DIR$/public/img/category" />
-      <recent name="$PROJECT_DIR$/src/components/Widget/Button" />
-      <recent name="$PROJECT_DIR$/public/Header" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$/src/constants/locale" />
       <recent name="$PROJECT_DIR$/public/img/popUp" />
       <recent name="$PROJECT_DIR$/src/hooks" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/scripts" />
+      <recent name="$PROJECT_DIR$/src/components/Auth/" />
+      <recent name="$PROJECT_DIR$/public/img/category" />
+      <recent name="$PROJECT_DIR$/src/components/Widget/Button" />
+      <recent name="$PROJECT_DIR$/public/Header" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -488,7 +420,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="658755000" />
+    <option name="totallyTimeSpent" value="658969000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -500,10 +432,9 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49909255" visible="true" weight="0.26680973" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49909255" visible="true" weight="0.27753934" />
       <window_info id="Structure" order="1" sideWeight="0.5009074" side_tool="true" weight="0.20958512" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -519,7 +450,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32891566" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.49570817" weight="0.32650602" />
       <window_info anchor="bottom" id="Database Changes" order="8" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49713877" visible="true" weight="0.21204819" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="9" sideWeight="0.49713877" visible="true" weight="0.4192771" />
       <window_info anchor="bottom" id="TypeScript" order="10" weight="0.32650602" />
       <window_info anchor="bottom" id="Event Log" order="11" sideWeight="0.50429183" side_tool="true" weight="0.32650602" />
       <window_info anchor="bottom" id="Docker" order="12" show_stripe_button="false" />
@@ -573,6 +504,11 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/src/agent.js" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -1018,7 +954,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Checkout/Overview.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1037">
+        <state relative-caret-position="488">
           <caret line="79" column="35" selection-start-line="79" selection-start-column="35" selection-end-line="79" selection-end-column="35" />
           <folding>
             <element signature="e#0#38#0" expanded="true" />
