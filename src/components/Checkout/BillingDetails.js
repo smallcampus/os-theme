@@ -1,10 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import {connect} from "react-redux";
 import {Button, CircularProgress, Grid, Typography} from '@material-ui/core'
 import {CART_EDIT_BILLING_DETAIL} from "../../constants/actionType";
-import InputBar from '../Widget/inputBar'
+import InputBar from '../Widget/InputBar'
 import agent from '../../agent'
 import classNames from 'classnames'
 import CountryCode from '../Widget/Input/Country'
@@ -291,8 +290,5 @@ class ShoppingCartTable extends React.Component {
     }
 }
 
-ShoppingCartTable.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
 
 export default withSnackbar(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ShoppingCartTable)))

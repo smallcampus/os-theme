@@ -9,7 +9,6 @@ import Paper from '@material-ui/core/Paper';
 import {connect} from "react-redux";
 import {withSnackbar} from 'notistack';
 import agent from '../../agent'
-import InputBar from '../Widget/inputBar'
 import TagsSearchBar from '../Widget/Input/tag'
 import {withRouter} from "react-router-dom";
 import {stringToTags} from '../../api/ApiUtils'
@@ -19,6 +18,7 @@ import _ from 'lodash'
 import {I18nText} from "../Widget/I18nText";
 import {keyOfI18n} from "../../constants/locale/interface";
 import {useI18nText} from "../../hooks/useI18nText";
+import InputBar from "../Widget/InputBar";
 
 const TAX_RATE = 0.07;
 
@@ -95,9 +95,7 @@ const PromoCode = props => {
                         <TableCell colSpan={2}>
                             <Button
                                 disabled={(coupons)}
-
-                                onClick={
-                                    () => {
+                                onClick={() => {
                                         if (promoCode === '') {
                                             props.enqueueSnackbar('Please Type in Promo Code First', styleGuide.errorSnackbar);
                                             return null
@@ -155,8 +153,7 @@ const PromoCode = props => {
                                         ).catch(
                                             err => props.enqueueSnackbar('Something wrong, please refresh and try again', styleGuide.errorSnackbar)
                                         )
-                                    }
-                                }
+                                    }}
                                 className={classes.button}
                                 variant={'outlined'} color={'primary'}
                             >Check</Button>
@@ -166,12 +163,8 @@ const PromoCode = props => {
                         false && <TableRow>
 
                             <TagsSearchBar
-                                defaultValue={
-                                    stringToTags(promoCode)
-                                }
+                                defaultValue={stringToTags(promoCode)}
                                 onChange={value => setPromoCode(_.join(_.map(value, 'value'), ','))}
-
-
                             />
 
                         </TableRow>}

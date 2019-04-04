@@ -11,17 +11,19 @@ import {Provider} from 'react-redux';
 import {SnackbarProvider} from 'notistack';
 import ReducerContextProvider from './context'
 import {ThemeProvider} from '@material-ui/styles'
+import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.render(
     <ReducerContextProvider>
         <Provider store={store}>
             <ThemeProvider theme={theme}>
-
-            <MuiThemeProvider theme={theme}>
-                <SnackbarProvider maxSnack={3}>
-                    <App/>
-                </SnackbarProvider>
-            </MuiThemeProvider>
+                <MuiThemeProvider theme={theme}>
+                    <SnackbarProvider maxSnack={3}>
+                        <BrowserRouter>
+                            <App/>
+                        </BrowserRouter>
+                    </SnackbarProvider>
+                </MuiThemeProvider>
             </ThemeProvider>
         </Provider>
     </ReducerContextProvider>

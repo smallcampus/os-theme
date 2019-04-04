@@ -7,6 +7,7 @@ const useStyles = makeStyles({
     dialog: {
         backgroundColor: 'white',
         opacity: 0.91,
+        maxWidth: '100%',
     },
     opacity: {
         opacity: 1,
@@ -22,7 +23,7 @@ interface Props {
 
 }
 
-const ResponsiveDialog: React.FunctionComponent<Props> = forwardRef((props, ref) => {
+export const ResponsiveDialog: React.FunctionComponent<Props> = forwardRef((props, ref) => {
     //in parent
     //  innerRef={e => this.popUp = e}
 //this.popUp.handleClose()
@@ -47,4 +48,5 @@ const ResponsiveDialog: React.FunctionComponent<Props> = forwardRef((props, ref)
         </Fragment>
     );
 });
+
 export default ResponsiveDialog

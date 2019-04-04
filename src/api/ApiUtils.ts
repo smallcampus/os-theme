@@ -5,6 +5,38 @@ import {Product, Variant} from "../interfaces/server/Product";
 import {Section} from "../interfaces/server/Feed";
 import {useI18nText} from "../hooks/useI18nText";
 import {keyOfI18n} from "../constants/locale/interface";
+import {UserProfile} from "../interfaces/server/Auth";
+import {ShoppingCartItem} from "../interfaces/client/ShoppingCart";
+import agent from '../agent'
+import {History} from "history";
+
+export const addToCart = (user: UserProfile, product: Product, history: History) => {
+    let shoppingCart = user.consumers[0].shoppingCart ? JSON.parse(user.consumers[0].shoppingCart).data : [] as Array<ShoppingCartItem>;
+    const isItemsExists: number = shoppingCart.findIndex(
+        (n: ShoppingCartItem) => (n.productId === product.id && n.selectedVariantId === product.variants[0].id));
+    if (isItemsExists !== -1) {
+        shoppingCart[isItemsExists] = {
+            ...shoppingCart[isItemsExists],
+            productCount: shoppingCart[isItemsExists].productCount + 1,
+        }
+    } else {
+
+        shoppingCart.push(
+            {
+                productId: product.id,
+                productCount: 1,
+                selectedVariantId: product.variants[0].id
+            }
+        )
+    }
+    agent.Auth.assignProperty({shoppingCart: JSON.stringify({data: shoppingCart})});
+    history.push({
+        pathname: '/confirmPage',
+        state: {
+            msg: '物品已成功加入購物籃'
+        }
+    })
+};
 
 export const refactorParaLength = (content: string, length: number = 45): string =>
     content.length > length ? content.replace(/(<([^>]+)>)/ig, "").slice(0, length).concat('...') : content;

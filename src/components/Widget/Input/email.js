@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Input} from '@material-ui/core';
 
-import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
+import {makeStyles} from "@material-ui/styles";
 
-const styles = theme => ({
+const useStyles =makeStyles( theme => ({
     root: {
         padding: '8px',
         backgroundColor: theme.palette.background.paper,
@@ -17,20 +17,11 @@ const styles = theme => ({
         margin: 'auto',
         '&:before': {}
     }
-});
+}))
 
-class SearchBar extends React.Component {
-    state = {
-        amount: '',
-        password: '',
-        weight: '',
-        weightRange: '',
-        showPassword: false,
-    };
-
-
-    render() {
-        const {classes, placeholder, value, onChange, onKeyPress} = this.props;
+const SearchBar =props=> {
+    const classes = useStyles()
+        const { placeholder, value, onChange, onKeyPress} = props;
 
         return <Input
             fullWidth={true}
@@ -46,13 +37,5 @@ class SearchBar extends React.Component {
             onChange={e => onChange(e.target.value)}
             onKeyPress={e => onKeyPress ? onKeyPress(e.key) : null}
         />
-
-
     }
-}
-
-SearchBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
-export default withStyles(styles)(SearchBar)
+export default  (SearchBar)

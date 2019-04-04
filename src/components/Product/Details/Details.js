@@ -11,8 +11,7 @@ const Detail = (props) => {
         const {draft, product} = props;
         let productCount = draft.number ? draft.number : 1;
         props.dispatchDraftToCart(product, productCount, NO_VARIANT_ID);
-        swal(
-            {
+        swal({
                 content: (<Grid container alignItems={'center'} direction={'column'}>
                     <Grid item>
                         {false && <span className={'icon-like'}
@@ -43,8 +42,6 @@ const Detail = (props) => {
 
                 </Grid>)
             })
-
-
     };
 
     const {
@@ -106,8 +103,7 @@ const Detail = (props) => {
                     >
 
                         <span className={'icon-cart'}/>
-                        &nbsp;&nbsp;Add To Cart
-                    </Button>
+                        &nbsp;&nbsp;Add To Cart</Button>
                 </Grid>
             </Grid>
         </Grid>

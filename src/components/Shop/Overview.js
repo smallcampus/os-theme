@@ -141,7 +141,6 @@ const ShopOverview = props => {
         })}
         selectedValue={props.filter.tag}
     />;
-
     let getPagination = (products) => {
         if (products.length === 0) return null;
         let options = numberToPagination(getProductProperty(products, 'length'),
@@ -157,17 +156,12 @@ const ShopOverview = props => {
         />)
     };
     let getProductsList = (products) => {
-
-
         if (products.length === 0) {
             return <Typography variant={'subtitle1'}> <I18nText keyOfI18n={keyOfI18n.THERE_ARE_NO_PRODUCTS_UNDER}/>
                 <strong>{
                     props.filter.tag
                 }</strong> <I18nText keyOfI18n={keyOfI18n.CATEGORY_YET}/></Typography>
-
-
         }
-
 
         return props.viewMode === 'form' ?
 
