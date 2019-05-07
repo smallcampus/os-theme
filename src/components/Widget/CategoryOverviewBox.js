@@ -10,7 +10,6 @@ const styles = theme => ({
     root: {
         display: 'flex',
         flexWrap: 'wrap',
-        minWidth: 480,
         width: '100%',
     },
     items: {
@@ -91,7 +90,7 @@ const styles = theme => ({
 });
 
 const ButtonBases = (props) => {
-    const {classes, history, category} = props
+    const {classes, history, category} = props;
 
     return (
 
@@ -140,7 +139,7 @@ const ButtonBases = (props) => {
             ))}
         </Grid>
     );
-}
+};
 
 ButtonBases.propTypes = {
 

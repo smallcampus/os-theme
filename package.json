@@ -5,31 +5,34 @@
   "dependencies": {
     "@material-ui/core": "^3.9.0",
     "@material-ui/icons": "^2.0.0",
-    "@material-ui/styles": "^3.0.0-alpha.8",
+    "@material-ui/styles": "^3.0.0-alpha.10",
     "@sweetalert/with-react": "^0.1.1",
     "@types/classnames": "^2.2.7",
     "@types/history": "^4.7.2",
     "@types/jest": "^23.3.12",
     "@types/lodash": "^4.14.119",
     "@types/node": "^10.12.18",
-    "@types/react": "^16.7.18",
-    "@types/react-dom": "^16.0.11",
+    "@types/react": "^16.8.8",
+    "@types/react-dom": "^16.8.0",
     "@types/react-router-dom": "^4.3.1",
     "axios": "^0.18.0",
     "classnames": "^2.2.6",
+    "dotenv": "^7.0.0",
     "history": "^4.7.2",
+    "http-proxy-middleware": "^0.19.1",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "notistack": "^0.3.9",
     "prop-types": "^15.5.10",
-    "react": "^16.8.0-alpha.0",
+    "react": "^16.8.3",
     "react-color": "^2.14.1",
-    "react-dom": "^16.8.0-alpha.0",
+    "react-dom": "^16.8.3",
+    "react-html-parser": "^2.0.2",
     "react-masonry-component": "^6.2.1",
     "react-number-format": "^4.0.6",
     "react-redux": "^5.0.7",
     "react-router": "^4.1.2",
-    "react-router-dom": "^4.1.2",
+    "react-router-dom": "^4.4.0-beta.6",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "2.1.1",
     "react-select": "^2.3.0",
@@ -42,10 +45,12 @@
     "typescript": "^3.2.2"
   },
   "scripts": {
+    "rebuild": "react-scripts build && git add . && git commit -m 'rebuild for update prod ver. ' && git push origin master ",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "i18n": "tsc src/scripts/generateKeyOfI18n.ts && node src/scripts/generateKeyOfI18n.js && yarn start"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -56,5 +61,7 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "https://myshop.oneshop.hk/"
+  "devDependencies": {
+    "ts-node": "^8.0.3"
+  }
 }

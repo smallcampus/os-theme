@@ -9,13 +9,16 @@ import Paper from '@material-ui/core/Paper';
 import {connect} from "react-redux";
 import {withSnackbar} from 'notistack';
 import agent from '../../agent'
-import InputBar from '../Widget/InputBar'
+import InputBar from '../Widget/inputBar'
 import TagsSearchBar from '../Widget/Input/tag'
 import {withRouter} from "react-router-dom";
 import {stringToTags} from '../../api/ApiUtils'
 import * as styleGuide from "../../constants/styleGuide";
 import {CART_EDIT_BILLING_DETAIL} from "../../constants/actionType";
 import _ from 'lodash'
+import {I18nText} from "../Widget/I18nText";
+import {keyOfI18n} from "../../constants/locale/interface";
+import {useI18nText} from "../../hooks/useI18nText";
 
 const TAX_RATE = 0.07;
 
@@ -67,15 +70,12 @@ const mapDispatchToProps = dispatch => ({
         }),
 
     }
-)
+);
 
 const PromoCode = props => {
-    const [promoCode, setPromoCode] = useState('')
-    let itemsOf = product => {
-
-        return product.number
-    }
-    let getRowPrice = product => product.product.variants.find(variant => variant.id === product.variantId).price * product.number
+    const [promoCode, setPromoCode] = useState('');
+    let itemsOf = product => product.number
+    let getRowPrice = product => product.product.variants.find(variant => variant.id === product.variantId).price * product.number;
 
     const {classes, shoppingCart, setCoupons, coupons} = props;
     return (
@@ -87,7 +87,7 @@ const PromoCode = props => {
                             <InputBar
                                 disabled={(coupons)}
 
-                                placeholder={'Type your promo code here'}
+                                placeholder={useI18nText(keyOfI18n.PROMO_CODE_TYPE_YOUR_PROMO_CODE_HERE)}
                                 onChange={value => setPromoCode(value)}
                                 value={promoCode}
                             />
@@ -99,29 +99,29 @@ const PromoCode = props => {
                                 onClick={
                                     () => {
                                         if (promoCode === '') {
-                                            props.enqueueSnackbar('Please Type in Promo Code First', styleGuide.errorSnackbar)
+                                            props.enqueueSnackbar('Please Type in Promo Code First', styleGuide.errorSnackbar);
                                             return null
                                         }
 
                                         agent.Checkout.getPromoCode(promoCode).then(
                                             res => {
                                                 if (res.data.data.total === 0) {
-                                                    props.enqueueSnackbar('Promo Code does not exist', styleGuide.errorSnackbar)
-                                                    setPromoCode('')
+                                                    props.enqueueSnackbar('Promo Code does not exist', styleGuide.errorSnackbar);
+                                                    setPromoCode('');
                                                     return null
                                                 }
 
                                                 if (res.data.data.total === 1) {
-                                                    let data = res.data.data.discounts[0]
+                                                    let data = res.data.data.discounts[0];
 
                                                     if (
                                                         props.shoppingCart.reduce((acc, cur) => acc + itemsOf(cur), 0) < data.requirements.items
 
                                                     ) {
 
-                                                        props.enqueueSnackbar(`You need to buy more to reach items requirement ${data.requirements.items}`, styleGuide.errorSnackbar)
+                                                        props.enqueueSnackbar(`You need to buy more to reach items requirement ${data.requirements.items}`, styleGuide.errorSnackbar);
 
-                                                        setPromoCode('')
+                                                        setPromoCode('');
 
                                                         return null
 
@@ -131,21 +131,21 @@ const PromoCode = props => {
                                                         props.shoppingCart.reduce((acc, cur) => acc + getRowPrice(cur), 0) < data.requirements.amount
 
                                                     ) {
-                                                        props.enqueueSnackbar(`You need to buy more to reach amount requirement HKD ${data.requirements.amount} `, styleGuide.errorSnackbar)
-                                                        setPromoCode('')
+                                                        props.enqueueSnackbar(`You need to buy more to reach amount requirement HKD ${data.requirements.amount} `, styleGuide.errorSnackbar);
+                                                        setPromoCode('');
 
                                                         return null
                                                     }
                                                     if (!(new Date(data['start_time']).getTime() <
                                                         Date.now() <
                                                         new Date(data['end_time']).getTime())) {
-                                                        props.enqueueSnackbar(`Promo Code you provide is not in vaild Date `, styleGuide.errorSnackbar)
-                                                        setPromoCode('')
+                                                        props.enqueueSnackbar(useI18nText(keyOfI18n.PROMO_CODE_SNAKE_BAR_EXCEED_EXPIRED_DATE), styleGuide.errorSnackbar);
+                                                        setPromoCode('');
 
                                                         return null
                                                     }
 
-                                                    props.enqueueSnackbar('Promo Code valid', styleGuide.successSnackbar)
+                                                    props.enqueueSnackbar(useI18nText( keyOfI18n.PROMO_CODE_SNAKE_BAR_VALID), styleGuide.successSnackbar);
 
                                                     setCoupons(res.data.data.discounts[0])
 
@@ -180,12 +180,11 @@ const PromoCode = props => {
                             <Typography
                                 variant={'body1'} color={'primary'}
                             >
-                                {(coupons) ?
-                                    `
+                                <I18nText keyOfI18n={
+                                    (coupons) ?
 
-                                                                   Promo Code valid
-                           ` : 'no Promo code available'
-                                }
+                                        keyOfI18n.PROMO_CODE_SNAKE_BAR_VALID :
+                                        keyOfI18n.PROMO_CODE_NO_PROMO_CODE_AVAILABLE}/>
                             </Typography>
                         </TableCell>
 
@@ -194,7 +193,7 @@ const PromoCode = props => {
             </Table>
         </Paper>
     )
-}
+};
 
 PromoCode.propTypes = {
     classes: PropTypes.object.isRequired,

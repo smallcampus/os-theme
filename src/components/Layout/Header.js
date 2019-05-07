@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import PropTypes from 'prop-types';
 import {AppBar, BottomNavigation, BottomNavigationAction, Grid, Input} from '@material-ui/core';
 import Button from '../Widget/Button/Button'
@@ -13,6 +13,11 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {CART_OPERATE_SHOPPING_CART, COMMON_EDIT_SEARCH_BAR} from "../../constants/actionType";
 import {redirectUrl} from "../../api/ApiUtils";
+import {useI18nText} from "../../hooks/useI18nText";
+import {keyOfI18n} from "../../constants/locale/interface";
+import DropDown from "../Widget/DropDown";
+import actionType from "../../context/actionType";
+import {reducer} from "../../context";
 
 const styles = theme => ({
     logo: {
@@ -96,7 +101,6 @@ const styles = theme => ({
 const mapStateToProps = state => ({
     shoppingCart: state.cart.shoppingCart,
     keyword: state.common.searchBar,
-
     products: state.product.products,
     feeds: state.feed.feeds,
     icon: state.common.shopInfo.icon,
@@ -118,11 +122,12 @@ const mapDispatchToProps = dispatch => ({
         })
     }
 
-)
+);
 
 const Header = props => {
-    const [keyword, setKeyword] = useState('')
-    const [navBar, setNavBar] = useState('')
+    const {commonReducer} = useContext(reducer)
+    const [keyword, setKeyword] = useState('');
+    const [navBar, setNavBar] = useState('');
     const {
         history,
         classes,
@@ -131,7 +136,7 @@ const Header = props => {
         feeds,
         shoppingCart,
         editShoppingCart,
-    } = props
+    } = props;
     let getInputBar = () =>
         <Input
             onKeyDown={e =>
@@ -139,16 +144,16 @@ const Header = props => {
             }
             onChange={e => setKeyword(e.target.value)}
             disableUnderline={true}
-            placeholder="Search…"
+            placeholder={`${useI18nText(keyOfI18n.SEARCH)}…`}
             classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput,
             }}
-        />
+        />;
 
 
-    let hasProductsToShow = (products && products.length > 0)
-    let hasFeedsToShow = (feeds && feeds.length > 0)
+    let hasProductsToShow = (products && products.length > 0);
+    let hasFeedsToShow = (feeds && feeds.length > 0);
 
     if (isWidthUp('md', width)) {
         return (<AppBar position="fixed" className={classes.appBar} style={{boxShadow: 'none'}}>
@@ -169,7 +174,7 @@ const Header = props => {
                         hasProductsToShow && <Grid item>
                             <Button
                                 onClick={() => redirectUrl('/products', history)}
-                                value={'products'}
+                                value={useI18nText(keyOfI18n.PRODUCTS)}
                             />
                         </Grid>
                     }
@@ -178,7 +183,7 @@ const Header = props => {
                         <Grid item>
                             <Button
                                 onClick={() => redirectUrl('/feeds', history)}
-                                value={'feeds'}
+                                value={useI18nText(keyOfI18n.FEEDS)}
                             />
                         </Grid>
                     }
@@ -186,14 +191,55 @@ const Header = props => {
                         <Button
                             onClick={() => redirectUrl('/checkout', history)}
 
-                            value={'checkout'}
+                            value={useI18nText(keyOfI18n.CHECKOUT)}
                         />
                     </Grid>}
                 </Grid>
                 {
                     (isWidthUp('lg', width)) ?
                         <Grid item xs={4} container alignItems={'center'} justify={'flex-end'}>
+                            <Grid item>
+                                <DropDown
+                                    selectedValue={commonReducer.state.locale==='en'?'English':'繁體中文'}
+                                    options={
 
+                                        [
+                                            {
+                                                label: 'English',
+                                                value: 'en',
+                                                onClick: () => {
+                                                    commonReducer.dispatch(
+                                                        {
+                                                            type: actionType.common.COMMON_INIT_I18N,
+                                                            payload: {
+                                                                locale:'en'
+                                                            }
+                                                        }
+                                                    );
+                                                }
+
+                                            },
+                                            {
+                                                label: '繁體中文',
+                                                value: 'zh',
+
+                                                onClick: () => {
+                                                    commonReducer.dispatch(
+                                                        {
+                                                            type: actionType.common.COMMON_INIT_I18N,
+                                                            payload: {
+                                                                locale:'zh'
+                                                            }
+                                                        }
+                                                    );
+                                                }
+                                            }
+                                        ]
+
+                                    }
+                                />
+
+                            </Grid>
                             <Grid item>
                                 <div className={classes.grow}/>
                                 <div className={classes.search}>
@@ -212,7 +258,7 @@ const Header = props => {
                                         />
                                         }
                                         title={<Button
-                                            value={'shopping cart'}
+                                            value={useI18nText(keyOfI18n.SHOPPING_CART)}
                                         />}
                                     />
 
@@ -229,6 +275,9 @@ const Header = props => {
                                     {getInputBar()}
                                 </div>
                             </Grid>
+
+
+
                             <Grid item>
                                 <PopUp
                                     popUp={<DropDownList
@@ -272,10 +321,10 @@ const Header = props => {
     </BottomNavigation>
 
 
-}
+};
 
 Header.propTypes = {
     classes: PropTypes.object.isRequired,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(withWidth()(withStyles(styles)(Header))))

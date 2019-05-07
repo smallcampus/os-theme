@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -7,7 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import {formatMoney, handleImgValid, refactorTitle} from "../../api/ApiUtils";
+import {formatMoney, handleImgValid, refactorTextLength} from "../../api/ApiUtils";
 import Counter from '../Widget/Counter'
 import {connect} from "react-redux";
 import classNames from 'classnames'
@@ -18,6 +18,8 @@ import {
     PRODUCT_EDIT_FILTER,
     PRODUCT_EDIT_SORT
 } from "../../constants/actionType";
+import {I18nText} from "../Widget/I18nText";
+import {keyOfI18n} from "../../constants/locale/interface";
 
 const TAX_RATE = 0.07;
 
@@ -84,13 +86,13 @@ const mapDispatchToProps = dispatch => ({
             },
         })
     }
-)
-const getRowPrice = product => product.product.variants.find(variant => variant.id === product.variantId).price * product.number
+);
+const getRowPrice = product => product.product.variants.find(variant => variant.id === product.variantId).price * product.number;
 
 const ShoppingCartTable = (props) => {
     const {classes, shoppingCart} = props;
 
-    if (shoppingCart === null) return <LoadingPage/>
+    if (shoppingCart === null) return <LoadingPage/>;
 
     return (
         shoppingCart.length > 0 ?
@@ -101,22 +103,22 @@ const ShoppingCartTable = (props) => {
                             <TableCell
                                 className={classes.block}
 
-                            >Image</TableCell>
+                            ><I18nText keyOfI18n={keyOfI18n.IMAGE}/></TableCell>
                             <TableCell
                                 className={classes.block}
-                                numeric>Product</TableCell>
+                                numeric><I18nText keyOfI18n={keyOfI18n.PRODUCT}/></TableCell>
                             <TableCell
                                 className={classes.block}
-                                numeric>Price</TableCell>
+                                numeric><I18nText keyOfI18n={keyOfI18n.PRICE}/></TableCell>
                             <TableCell
                                 className={classes.block}
-                                numeric>Quantity</TableCell>
+                                numeric><I18nText keyOfI18n={keyOfI18n.QUANTITY}/></TableCell>
                             <TableCell
                                 className={classes.block}
-                                numeric>Total</TableCell>
+                                numeric><I18nText keyOfI18n={keyOfI18n.TOTAL}/></TableCell>
                             <TableCell
                                 className={classes.block}
-                                numeric>Remove</TableCell>
+                                numeric><I18nText keyOfI18n={keyOfI18n.REMOVE}/></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -139,7 +141,7 @@ const ShoppingCartTable = (props) => {
                                     title={'( ' + n.product.variants.find(variant => variant.id === n.variantId).description
                                     + ' )'}>
                                     <div>
-                                        {refactorTitle(n.product.name)
+                                        {refactorTextLength(n.product.name)
                                         }</div>
                                 </Tooltip>
 
@@ -184,7 +186,7 @@ const ShoppingCartTable = (props) => {
                                 <Button variant={'outlined'}
                                         className={classes.button}
                                         href={'/checkout'}>
-                                    Checkout
+                                    <I18nText keyOfI18n={keyOfI18n.CHECKOUT}/>
                                 </Button>
                             </TableCell>
 
@@ -195,13 +197,13 @@ const ShoppingCartTable = (props) => {
                 <span className={'icon-tongue'}/>
                 <Grid item>
                     <Typography variant={'h6'}>
-                        there is no items in shopping cart
+                        <I18nText keyOfI18n={keyOfI18n.CART_NO_ITEMS_TO_SHOW}/>
                     </Typography>
                 </Grid>
             </Grid>
 
     );
-}
+};
 
 
 ShoppingCartTable.propTypes = {

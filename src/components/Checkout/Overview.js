@@ -14,6 +14,9 @@ import PromoCode from './PromoCode'
 import {withSnackbar} from 'notistack'
 import _ from 'lodash'
 import * as styleGuide from "../../constants/styleGuide";
+import {I18nText} from "../Widget/I18nText";
+import {keyOfI18n} from "../../constants/locale/interface";
+import {useI18nText} from "../../hooks/useI18nText";
 
 const styles = theme => ({
     productCategory: {
@@ -42,7 +45,7 @@ const styles = theme => ({
 
     }
 
-})
+});
 
 const mapStateToProps = state => ({
     shoppingCart: state.cart.shoppingCart,
@@ -51,45 +54,45 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = dispatch => ({
 
-        changeViewMode: (mode) =>
-            dispatch({
-                    type: EDIT_PRODUCT_VIEW_MODE,
-                    payload: mode,
-                }
-            )
-        ,
-        editProductSort: (key, value) => dispatch({
-            type: PRODUCT_EDIT_SORT,
-            payload: {
-                key: key,
-                value: value,
-            },
-        }),
-        editProductFilter: (key, value) => dispatch({
-            type: PRODUCT_EDIT_FILTER,
-            payload: {
-                key: key,
-                value: value,
-            },
-        }),
-    })
+    changeViewMode: (mode) =>
+        dispatch({
+                type: EDIT_PRODUCT_VIEW_MODE,
+                payload: mode,
+            }
+        )
+    ,
+    editProductSort: (key, value) => dispatch({
+        type: PRODUCT_EDIT_SORT,
+        payload: {
+            key: key,
+            value: value,
+        },
+    }),
+    editProductFilter: (key, value) => dispatch({
+        type: PRODUCT_EDIT_FILTER,
+        payload: {
+            key: key,
+            value: value,
+        },
+    }),
+});
 
 const CheckoutOverview = props => {
 
-    const {classes} = props
-    const rendering = (!(props.shoppingCart) || props.user === null)
-    const needLogin = (_.isEmpty(props.user))
-    const NoProductsInCart = (props.shoppingCart.length < 1)
+    const {classes} = props;
+    const rendering = (!(props.shoppingCart) || props.user === null);
+    const needLogin = (_.isEmpty(props.user));
+    const NoProductsInCart = (props.shoppingCart.length < 1);
 
     switch (true) {
         case rendering:
-            return <LoadingPage/>
-        case needLogin:{
-
-            redirectUrl('/login', props.history, false)
-            props.enqueueSnackbar('please log in first in order to checkout your products', styleGuide.warningSnackbar)
-            return null
-        }
+            return <LoadingPage/>;
+        // case needLogin: {
+        //
+        //     redirectUrl('/login', props.history, false);
+        //     props.enqueueSnackbar('please log in first in order to checkout your products', styleGuide.warningSnackbar);
+        //     return null
+        // }
         case NoProductsInCart:
             return (<Grid container alignItems={'center'} justify={'center'}>
 
@@ -99,14 +102,14 @@ const CheckoutOverview = props => {
                     <Grid item>
 
                         <Typography variant={'h6'} color={'primary'}>
-                            You haven't put any items in cart
+                           <I18nText keyOfI18n={keyOfI18n.CHECKOUT_YOU_HAVE_NOT_PUT_ANY_ITEMS_IN_CART}/> 
                         </Typography>
                     </Grid>
 
                     <Grid item container alignItems={'center'} spacing={16}>
                         <Grid item>
                             <Typography variant={'subtitle1'} color={'primary'}>
-                                go to
+                                <I18nText keyOfI18n={keyOfI18n.GOTO}/>
                             </Typography>
                         </Grid>
                         <Grid item>
@@ -115,22 +118,22 @@ const CheckoutOverview = props => {
                                 onClick={() => redirectUrl('/products', props.history)}
 
                             >
-                                Products
+                                <I18nText keyOfI18n={keyOfI18n.PRODUCTS}/>
                             </Button>
                         </Grid>
                         <Grid item>
                             <Typography variant={'subtitle1'} color={'primary'}>
-                                to buy some
+                             <I18nText keyOfI18n={keyOfI18n.CHECKOUT_TO_BUY_SOME}/>
                             </Typography>
                         </Grid>
                     </Grid>
                 </Grid>
-            </Grid>)
+            </Grid>);
         default:
             return (
                 <Grid container justify={'center'}>
                     <Grid item sm={12}>
-                        <Header title={'Checkout'}/>
+                        <Header title={useI18nText(keyOfI18n.CHECKOUT)}/>
                     </Grid>
                     <Grid item container justify={'center'} spacing={32} md={10}>
 
@@ -140,14 +143,14 @@ const CheckoutOverview = props => {
                                     <Typography
                                         className={classes.title}
                                         variant={'h4'}>
-                                        Your Order Summary
+                                        <I18nText keyOfI18n={keyOfI18n.CHECKOUT_YOUR_ORDER_SUMMARY}/>
                                     </Typography>
                                     <Divider/>
                                     <OrderSummary/>
                                     <Typography
                                         className={classes.title}
                                         variant={'h4'}>
-                                        Promo Code
+                                        <I18nText keyOfI18n={keyOfI18n.CHECKOUT_PROMO_CODE}/>
                                     </Typography>
                                     <Divider/>
                                     <PromoCode/>
@@ -156,8 +159,7 @@ const CheckoutOverview = props => {
                                     <Typography
                                         className={classes.title}
                                         variant={'h4'}>
-                                        Billing Details
-
+                                        <I18nText keyOfI18n={keyOfI18n.CHECKOUT_BILLING_DETAIL}/>
                                     </Typography>
                                     <Divider/>
                                     <BillingDetails/>
@@ -171,14 +173,13 @@ const CheckoutOverview = props => {
                                             <Typography
                                                 className={classes.title}
                                                 variant={'h4'}>
-                                                Your Order Summary
+                                                <I18nText keyOfI18n={keyOfI18n.CHECKOUT_YOUR_ORDER_SUMMARY}/>
                                             </Typography>
 
                                             <Divider/>
                                         </Fragment>}
                                         collapse={
                                             <OrderSummary/>
-
                                         }
                                     />
                                 </Grid>
@@ -186,8 +187,7 @@ const CheckoutOverview = props => {
                                     <Typography
                                         className={classes.title}
                                         variant={'h4'}>
-                                        Billing Details
-
+                                        <I18nText keyOfI18n={keyOfI18n.CHECKOUT_BILLING_DETAIL}/>
                                     </Typography>
                                     <Divider/>
                                     <BillingDetails/>
@@ -202,6 +202,6 @@ const CheckoutOverview = props => {
                 </Grid>
             )
     }
-}
+};
 
 export default withSnackbar(withWidth()(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(CheckoutOverview))))

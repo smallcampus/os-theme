@@ -4,7 +4,7 @@ import {withStyles} from '@material-ui/core/styles';
 import {Grid, Typography} from '@material-ui/core';
 import BigFeedBox from './BigFeedBox'
 import SmallFeedBox from './SmallFeedBox'
-import {refactorTitle} from "../../../api/ApiUtils";
+import {htmlToPlainText, refactorTextLength} from "../../../api/ApiUtils";
 
 const styles = theme => ({
     root: {},
@@ -45,7 +45,7 @@ class FeedsWall extends React.Component {
                     link={'/feeds/' + data[0].id}
 
                     backgroundImg={data[0].sections[0].medias[0].url}
-                    title={refactorTitle(data[0].sections[0].title)}
+                    title={refactorTextLength(data[0].sections[0].title)}
 
                 />
                 {data[1] && <SmallFeedBox
@@ -68,7 +68,7 @@ class FeedsWall extends React.Component {
                         <Typography
                             style={{padding: '0 20px', color: 'rgb(159, 159, 159)'}}
                         >
-                            {data[1].sections[0].description}</Typography>
+                            {htmlToPlainText(data[1].sections[0].description)}</Typography>
 
                     </div>}
 
@@ -97,13 +97,13 @@ class FeedsWall extends React.Component {
                             <Typography
                                 style={{padding: '0 20px', color: 'rgb(159, 159, 159)'}}
                             >
-                                {data[2].sections[0].description}</Typography>
+                                {htmlToPlainText(data[2].sections[0].description)}</Typography>
                         </div>)}
 
                 />}
                 {data[3] && <BigFeedBox
                     link={'/feeds/' + data[3].id}
-                    title={refactorTitle(data[3].sections[0].title)}
+                    title={refactorTextLength(data[3].sections[0].title)}
                     backgroundImg={data[3].sections[0].medias[0].url}
 
                 />}

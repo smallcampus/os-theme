@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import {useI18nText} from "../../hooks/useI18nText";
+import {keyOfI18n} from "../../constants/locale/interface";
 
 const styles = {
     root: {
@@ -15,7 +17,7 @@ const styles = {
 };
 
 const Terms = props => {
-    const {classes, checked, onChange,label} = props
+    const {classes, checked, onChange, label} = props;
     return (
         <FormControlLabel
             control={
@@ -29,11 +31,11 @@ const Terms = props => {
                     }}
                 />
             }
-            label={label?label:"I have read and agree to the website terms and conditions."}
+            label={label ? label : useI18nText(keyOfI18n.TERM_AND_CONDITIONS)}
         />
 
     )
-}
+};
 
 Terms.propTypes = {
     checked: PropTypes.bool.isRequired,

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import ErrorBoundary from "./Layout/ErrorHandling";
 import ScrollToTop from './Layout/ScrollToTop'
@@ -14,10 +14,10 @@ import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import {connect} from "react-redux";
 import {
-    COMMON_INIT_SHOP_INFO,
     AUTH_INIT_USER_PROFILE,
     CART_INIT_SHOPPING_CART,
     CATEGORY_INIT_CATEGORY,
+    COMMON_INIT_SHOP_INFO,
     INIT_FEEDS,
     INIT_PRODUCTS
 } from "../constants/actionType";
@@ -34,7 +34,10 @@ import NotFound from './Layout/NotFound'
 import MyCredits from './Layout/MyCredits'
 import Register from './Auth/Register/Overview'
 import Login from './Auth/Login/Overview'
-
+import Validate from './Layout/Validate'
+import actionType from "../context/actionType";
+import {language} from "../I18N";
+import {reducer} from "../context";
 
 const mapStateToProps = state => ({
     products: state.product.products,
@@ -43,11 +46,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
         initApp: (shoppingCart) => {
+
             agent.Products.initProducts().then(res =>
                 dispatch(
                     {
                         type: INIT_PRODUCTS,
-                        payload: res.data.data.products,
+                        payload: res.data.data.merchandises,
                     }
                 )
             ).catch(err => dispatch(
@@ -55,7 +59,7 @@ const mapDispatchToProps = dispatch => ({
                     type: INIT_PRODUCTS,
                     payload: [],
                 }
-            ))
+            ));
 
             agent.Feeds.initFeeds().then(res =>
                 dispatch(
@@ -69,7 +73,7 @@ const mapDispatchToProps = dispatch => ({
                     type: INIT_FEEDS,
                     payload: [],
                 }
-            ))
+            ));
             agent.Auth.getAccount().then(user =>
                 dispatch(
                     {
@@ -83,29 +87,28 @@ const mapDispatchToProps = dispatch => ({
                     payload: {},
 
                 }
-            ))
+            ));
             agent.Products.initBusiness().then(res => {
 
                     if (res.data.data.shops) {
-                        console.log(res.data.data)
                         dispatch(
                             {
                                 type: CATEGORY_INIT_CATEGORY,
                                 payload: res.data.data.shops[0].tags.split(','),
                             }
-                        )
+                        );
                         dispatch(
                             {
                                 type: COMMON_INIT_SHOP_INFO,
                                 payload: res.data.data.shops[0],
                             }
-                        )
+                        );
                         document.title = res.data.data.shops[0].name
                     }
                 }
             ).catch(err => {
 
-                    document.title = 'One Shop'
+                    document.title = 'One Shop';
 
                     dispatch(
                         {
@@ -114,14 +117,12 @@ const mapDispatchToProps = dispatch => ({
                         }
                     )
                 }
-            )
+            );
 
             dispatch({
                 type: CART_INIT_SHOPPING_CART,
                 payload: shoppingCart,
             })
-
-
         },
         finishLoadingProducts: products =>
             dispatch(
@@ -132,37 +133,53 @@ const mapDispatchToProps = dispatch => ({
             )
 
     }
-)
+);
 
 const App = props => {
+
+    const {commonReducer} = useContext(reducer)
     let getAllProducts = async (page = 1, products = []) => {
-        let data = await agent.Products.initProducts(`?page=${page}`).then(res => res.data.data.products).catch(err => [])
+        let data = await agent.Products.initProducts(`?page=${page}`).then(res => res.data.data.merchandises).catch(err => []);
         return (data && data.length > 0) ? getAllProducts(page + 1, _.concat(products, data)) : products
-    }
+    };
     let initApp = async () => await props.initApp(
         JSON.parse(localStorage.getItem('shoppingCart')),
         //todo(init to [] storage)
-    )
+    );
+
 
     useEffect(
         () => {
+         //   setInterval(()=>agent.Auth.test(),100)
+            let storedLocale = localStorage.getItem('locale')
+            console.log(storedLocale)
+            if (storedLocale === 'en' || storedLocale === 'zh') {
+
+                commonReducer.dispatch(
+                    {
+                        type: actionType.common.COMMON_INIT_I18N,
+                        payload: {
+                            locale: storedLocale
+                        }
+                    }
+                )
+            }
+
             initApp().then(
                 async () =>
                     props.finishLoadingProducts(
                         await getAllProducts()
                     )
-            )
-            return null
-        },[])
-
+            );
+        }, []);
 
     return (
         <BrowserRouter>
             <ScrollToTop>
                 <ErrorBoundary>
                     <Header/>
-                    <MyCredits/>
-                    <div style={(isWidthUp('md', props.width)) ? {paddingTop: '76px'} : null}>
+                    <div style={(isWidthUp('md', props.width)) ? {paddingTop: '76px',
+                       minHeight: 'calc(100vh - 373px)'} : { minHeight: 'calc(100vh - 373px)'}}>
                         <Switch>
                             <Route exact path={'/'} component={mainPage}/>
                             <Route exact path={'/404'} component={NotFound}/>
@@ -177,9 +194,12 @@ const App = props => {
                             <Route exact path={'/confirmPage/:orderId'} component={ConfirmPage}/>
                             <Route exact path={'/loadingPage'} component={LoadingPage}/>
                             <Route exact path={'/search/:keyword'} component={SearchPage}/>
+                            <Route exact path={'/validate/:id'} component={Validate}/>
                             <Route component={NotFound}/>
                         </Switch>
                     </div>
+                    <MyCredits/>
+
                     <Footer/>
                 </ErrorBoundary>
             </ScrollToTop>
@@ -187,7 +207,7 @@ const App = props => {
 
     )
 
-}
+};
 
 //todo('add in stock logic')
 
