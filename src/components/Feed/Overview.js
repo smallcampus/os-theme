@@ -51,7 +51,6 @@ const mapDispatchToProps = dispatch => ({
 );
 
 class ResponsiveDialog extends React.Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -59,7 +58,6 @@ class ResponsiveDialog extends React.Component {
         }
 
     }
-
     onChange = value => {
         clearTimeout(this.state.timer);
         this.setState(
@@ -69,7 +67,6 @@ class ResponsiveDialog extends React.Component {
             }
         )
     };
-
     render() {
         const {classes} = this.props;
         const feeds = (this.props.feeds) ?
@@ -114,7 +111,7 @@ class ResponsiveDialog extends React.Component {
 
                                         subTitle={refactorTextLength(n.sections[0].description)}
                                         title={n.sections[0].title}
-                                        author={n.authors.length > 0 ? n.authors[0].name.first + ' ' + n.authors[0].name.last : useI18nText(keyOfI18n.NO_AUTHORS)}
+                                        author={(n.reactor && n.reactor.length > 0 )? n.authors[0].name.first + ' ' + n.authors[0].name.last : useI18nText(keyOfI18n.NO_AUTHORS)}
                                         postDate={n.time}
                                         comments={0}
                                     />) :
