@@ -168,7 +168,7 @@ const Header = props => {
 
                     }
                 </Grid>
-                <Grid item xs={1}>DOGCOM</Grid>
+                <Grid item xs={1}><Paper>DOGCOM</Paper></Grid>
                 <Grid item xs={6} container>
                     {
                         hasProductsToShow && <Grid item>
